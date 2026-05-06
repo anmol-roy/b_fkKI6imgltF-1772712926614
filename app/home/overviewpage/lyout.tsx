@@ -11,15 +11,14 @@ import TechStackSection from "@/components/mainPage/sections/Techstacksection ";
 export default function MainPageSectionWise (){
     return (
         <>
-        {/* <Overview /> */}
-        < HeroSection />
-        <AboutSection />
-        < ProjectsSection />
-        < CaseStudiesSection />
-        < TechStackSection />
-        <AchievementsSection />
-        <ContactSection />
-        < FooterSection />
+        <div id="overview"><HeroSection /></div>
+        <div id="about"><AboutSection /></div>
+        <div id="projects"><ProjectsSection /></div>
+        <div id="case-studies"><CaseStudiesSection /></div>
+        <div id="tech-stack"><TechStackSection /></div>
+        <div id="achievements"><AchievementsSection /></div>
+        <div id="contact"><ContactSection /></div>
+        <FooterSection />
         </>
     )
 }

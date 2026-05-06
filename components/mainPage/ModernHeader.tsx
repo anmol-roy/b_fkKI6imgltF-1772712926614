@@ -3,7 +3,8 @@
 import { useState, useCallback, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
-import Image from "next/image"
+import Image from "next/image";
+import { useTheme } from "@/lib/contexts/ThemeContext";
 
 // Define the props interface
 interface ModernHeaderProps {
@@ -14,9 +15,12 @@ interface ModernHeaderProps {
 export default function ModernHeader({ activeSection, setActiveSection }: ModernHeaderProps) {
   const [isConnectOpen, setIsConnectOpen] = useState(false);
   const [isMoreOpen, setIsMoreOpen] = useState(false);
+  const [isThemeOpen, setIsThemeOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [hidden, setHidden] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  
+  const { theme, setTheme, resolvedTheme } = useTheme();
 
   // Enhanced scroll handling with smoother animation
   useEffect(() => {
@@ -59,13 +63,16 @@ export default function ModernHeader({ activeSection, setActiveSection }: Modern
       if (!target.closest(".more-dropdown")) {
         setIsMoreOpen(false);
       }
+      if (!target.closest(".theme-dropdown")) {
+        setIsThemeOpen(false);
+      }
     };
 
-    if (isConnectOpen || isMoreOpen) {
+    if (isConnectOpen || isMoreOpen || isThemeOpen) {
       document.addEventListener("mousedown", handleClickOutside);
     }
     return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, [isConnectOpen, isMoreOpen]);
+  }, [isConnectOpen, isMoreOpen, isThemeOpen]);
 
   // Prevent background scroll when mobile menu is open
   useEffect(() => {
@@ -278,7 +285,7 @@ export default function ModernHeader({ activeSection, setActiveSection }: Modern
     },
     {
       name: "Email",
-      url: "mailto:your.email@gmail.com",
+      url: "royalanmol113.email@gmail.com",
       icon: (
         <svg
           className="w-4 h-4"
@@ -317,14 +324,62 @@ export default function ModernHeader({ activeSection, setActiveSection }: Modern
     setIsMobileMenuOpen((prev) => !prev);
   }, []);
 
+  const toggleThemeMenu = useCallback(() => {
+    setIsThemeOpen((prev) => !prev);
+  }, []);
+
+  const themeOptions = [
+    {
+      id: "light" as const,
+      label: "Light",
+      icon: (
+        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+            d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707M17.657 17.657l-.707-.707M6.343 6.343l-.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z"
+          />
+        </svg>
+      ),
+    },
+    {
+      id: "dark" as const,
+      label: "Dark",
+      icon: (
+        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+            d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
+          />
+        </svg>
+      ),
+    },
+    {
+      id: "system" as const,
+      label: "System",
+      icon: (
+        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+            d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+          />
+        </svg>
+      ),
+    },
+  ];
+
   const handleMoreItemClick = useCallback(() => {
     setIsMoreOpen(false);
+  }, []);
+
+  const scrollToSection = useCallback((sectionId: string) => {
+    const el = document.getElementById(sectionId);
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth" });
+    }
   }, []);
 
   const handleMobileNavClick = useCallback((section: string) => {
     setActiveSection(section);
     setIsMobileMenuOpen(false);
-  }, [setActiveSection]);
+    scrollToSection(section);
+  }, [setActiveSection, scrollToSection]);
 
   // Check if we're not on the overview section (home)
   const isNotOverview = activeSection !== "overview";
@@ -345,8 +400,11 @@ export default function ModernHeader({ activeSection, setActiveSection }: Modern
           stiffness: 200,
           damping: 25
         }}
-        className="fixed top-0 left-0 right-0 z-50 backdrop-blur-xl bg-gradient-to-b from-[#0a0339]/95 to-[#0a0339]/70 border-b border-white/20 shadow-2xl shadow-blue-500/10"
+        className="fixed top-0 left-0 right-0 z-50 backdrop-blur-xl border-b shadow-2xl transition-colors duration-300"
         style={{
+          background: `linear-gradient(to bottom, var(--header-bg-from), var(--header-bg-to))`,
+          borderColor: "var(--header-border)",
+          boxShadow: `0 4px 32px var(--header-shadow)`,
           transform: "translate3d(0, 0, 0)",
           backfaceVisibility: "hidden",
           perspective: 1000,
@@ -445,7 +503,12 @@ export default function ModernHeader({ activeSection, setActiveSection }: Modern
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         exit={{ opacity: 0, y: 10, scale: 0.95 }}
                         transition={{ duration: 0.2 }}
-                        className="absolute right-0 top-full mt-2 w-48 lg:w-56 bg-[#1a0b3c] border border-white/20 rounded-lg shadow-2xl shadow-blue-500/20 backdrop-blur-xl z-50"
+                        className="absolute right-0 top-full mt-2 w-48 lg:w-56 border rounded-lg shadow-2xl backdrop-blur-xl z-50 transition-colors duration-300"
+                        style={{
+                          background: "var(--dropdown-bg)",
+                          borderColor: "var(--dropdown-border)",
+                          boxShadow: `0 8px 32px var(--dropdown-shadow)`,
+                        }}
                         onMouseLeave={() => setIsConnectOpen(false)}
                       >
                         <div className="p-2 lg:p-3">
@@ -477,9 +540,110 @@ export default function ModernHeader({ activeSection, setActiveSection }: Modern
                   </AnimatePresence>
                 </div>
 
-                {/* More Dropdown */}
-                <div className="relative more-dropdown">
+                {/* Theme Toggle Dropdown */}
+                <div className="relative theme-dropdown">
                   <motion.button
+                    onClick={toggleThemeMenu}
+                    aria-haspopup="menu"
+                    aria-expanded={isThemeOpen}
+                    aria-label="Toggle theme"
+                    whileHover={{ scale: 1.05, y: -1 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="px-2 py-1.5 lg:px-3 lg:py-2 text-xs lg:text-sm font-medium text-white bg-transparent border border-white/30 rounded-lg hover:bg-white/10 transition-all duration-300 flex items-center space-x-1 lg:space-x-2 shadow-lg hover:shadow-blue-500/10"
+                  >
+                    <AnimatePresence mode="wait">
+                      {resolvedTheme === "dark" ? (
+                        <motion.svg
+                          key="dark-icon"
+                          initial={{ rotate: -30, opacity: 0 }}
+                          animate={{ rotate: 0, opacity: 1 }}
+                          exit={{ rotate: 30, opacity: 0 }}
+                          transition={{ duration: 0.2 }}
+                          className="w-3 h-3 lg:w-4 lg:h-4"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                            d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
+                          />
+                        </motion.svg>
+                      ) : (
+                        <motion.svg
+                          key="light-icon"
+                          initial={{ rotate: 30, opacity: 0 }}
+                          animate={{ rotate: 0, opacity: 1 }}
+                          exit={{ rotate: -30, opacity: 0 }}
+                          transition={{ duration: 0.2 }}
+                          className="w-3 h-3 lg:w-4 lg:h-4"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                            d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707M17.657 17.657l-.707-.707M6.343 6.343l-.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z"
+                          />
+                        </motion.svg>
+                      )}
+                    </AnimatePresence>
+                    <motion.div
+                      animate={{ rotate: isThemeOpen ? 180 : 0 }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      <svg className="w-3 h-3 lg:w-4 lg:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                      </svg>
+                    </motion.div>
+                  </motion.button>
+
+                  <AnimatePresence>
+                    {isThemeOpen && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                        transition={{ duration: 0.2 }}
+                        className="absolute right-0 top-full mt-2 w-40 bg-[#1a0b3c] dark:bg-[#1a0b3c] border border-white/20 rounded-lg shadow-2xl shadow-blue-500/20 backdrop-blur-xl z-50"
+                        onMouseLeave={() => setIsThemeOpen(false)}
+                      >
+                        <div className="p-2">
+                          <div className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2 px-2">
+                            Appearance
+                          </div>
+                          {themeOptions.map((option, index) => (
+                            <motion.button
+                              key={option.id}
+                              onClick={() => { setTheme(option.id); setIsThemeOpen(false); }}
+                              initial={{ opacity: 0, x: -20 }}
+                              animate={{ opacity: 1, x: 0 }}
+                              transition={{ delay: index * 0.07 }}
+                              whileHover={{ scale: 1.02, x: 4 }}
+                              className={`flex items-center space-x-3 w-full px-3 py-2.5 text-xs lg:text-sm rounded-lg transition-all duration-200 border ${
+                                theme === option.id
+                                  ? "text-white bg-white/10 border-white/20"
+                                  : "text-gray-300 hover:text-white hover:bg-white/5 border-transparent hover:border-white/10"
+                              }`}
+                            >
+                              <div className="flex items-center justify-center w-4 h-4">
+                                {option.icon}
+                              </div>
+                              <span className="font-medium">{option.label}</span>
+                              {theme === option.id && (
+                                <motion.div
+                                  layoutId="activeTheme"
+                                  className="ml-auto w-1.5 h-1.5 rounded-full bg-blue-400"
+                                />
+                              )}
+                            </motion.button>
+                          ))}
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+
+                {/* More Dropdown */}
+                <div className="relative more-dropdown">                  <motion.button
                     onClick={toggleMoreMenu}
                     aria-haspopup="menu"
                     aria-expanded={isMoreOpen}
@@ -516,7 +680,12 @@ export default function ModernHeader({ activeSection, setActiveSection }: Modern
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         exit={{ opacity: 0, y: 10, scale: 0.95 }}
                         transition={{ duration: 0.2 }}
-                        className="absolute right-0 top-full mt-2 w-44 lg:w-48 bg-[#1a0b3c] border border-white/20 rounded-lg shadow-2xl shadow-blue-500/20 backdrop-blur-xl z-50"
+                        className="absolute right-0 top-full mt-2 w-44 lg:w-48 border rounded-lg shadow-2xl backdrop-blur-xl z-50 transition-colors duration-300"
+                        style={{
+                          background: "var(--dropdown-bg)",
+                          borderColor: "var(--dropdown-border)",
+                          boxShadow: `0 8px 32px var(--dropdown-shadow)`,
+                        }}
                         onMouseLeave={() => setIsMoreOpen(false)}
                       >
                         <div className="p-2 lg:p-3">
@@ -561,13 +730,13 @@ export default function ModernHeader({ activeSection, setActiveSection }: Modern
                   {navItems.map((item) => (
                     <li key={item.id}>
                       <motion.button
-                        onClick={() => setActiveSection(item.id)}
+                        onClick={() => { setActiveSection(item.id); scrollToSection(item.id); }}
                         whileHover={{ scale: 1.02, y: -1 }}
                         whileTap={{ scale: 0.98 }}
                         className={`relative px-2 lg:px-3 py-[10px] text-xs lg:text-sm font-medium transition-all duration-300 flex items-center space-x-1 rounded-lg mx-0 ${
                           activeSection === item.id
-                            ? "text-white"
-                            : "text-gray-300 hover:text-white hover:bg-white/5"
+                            ? "text-[var(--nav-active)]"
+                            : "text-[var(--nav-inactive)] hover:text-[var(--nav-active)] hover:bg-[var(--nav-hover-bg)]"
                         }`}
                         aria-current={activeSection === item.id ? "page" : undefined}
                       >
@@ -600,13 +769,13 @@ export default function ModernHeader({ activeSection, setActiveSection }: Modern
                   {navItems.map((item) => (
                     <li key={item.id} className="flex-shrink-0">
                       <motion.button
-                        onClick={() => setActiveSection(item.id)}
+                        onClick={() => { setActiveSection(item.id); scrollToSection(item.id); }}
                         whileHover={{ scale: 1.02, y: -1 }}
                         whileTap={{ scale: 0.98 }}
                         className={`relative px-2 py-2 text-xs font-medium transition-all duration-300 flex items-center space-x-1 rounded-lg ${
                           activeSection === item.id
-                            ? "text-white"
-                            : "text-gray-300 hover:text-white hover:bg-white/5"
+                            ? "text-[var(--nav-active)]"
+                            : "text-[var(--nav-inactive)] hover:text-[var(--nav-active)] hover:bg-[var(--nav-hover-bg)]"
                         }`}
                         aria-current={activeSection === item.id ? "page" : undefined}
                       >
@@ -783,7 +952,11 @@ export default function ModernHeader({ activeSection, setActiveSection }: Modern
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
               transition={{ type: "spring", damping: 25, stiffness: 200 }}
-              className="fixed top-[65px] right-0 bottom-0 w-[85%] max-w-sm bg-gradient-to-b from-[#0a0339] to-[#1a0b3c] border-l border-white/20 z-50 md:hidden overflow-y-auto"
+              className="fixed top-[65px] right-0 bottom-0 w-[85%] max-w-sm border-l z-50 md:hidden overflow-y-auto transition-colors duration-300"
+              style={{
+                background: `linear-gradient(to bottom, var(--header-bg-from), var(--dropdown-bg))`,
+                borderColor: "var(--header-border)",
+              }}
             >
               <div className="p-4 space-y-6">
                 {/* Navigation Items */}
@@ -870,6 +1043,37 @@ export default function ModernHeader({ activeSection, setActiveSection }: Modern
                         </div>
                         <span className="font-medium">{social.name}</span>
                       </motion.a>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Theme Selector */}
+                <div>
+                  <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3 px-2">
+                    Appearance
+                  </h3>
+                  <div className="space-y-1">
+                    {themeOptions.map((option, index) => (
+                      <motion.button
+                        key={option.id}
+                        onClick={() => setTheme(option.id)}
+                        initial={{ opacity: 0, x: 20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: (navItems.length + moreItems.length + socialLinks.length + index) * 0.05 }}
+                        className={`flex items-center space-x-3 w-full px-3 py-3 text-sm rounded-lg transition-all duration-200 ${
+                          theme === option.id
+                            ? "text-white bg-white/10 border border-white/20"
+                            : "text-gray-300 hover:text-white hover:bg-white/5"
+                        }`}
+                      >
+                        <div className="flex items-center justify-center w-5 h-5">
+                          {option.icon}
+                        </div>
+                        <span className="font-medium">{option.label}</span>
+                        {theme === option.id && (
+                          <div className="ml-auto w-2 h-2 rounded-full bg-blue-400" />
+                        )}
+                      </motion.button>
                     ))}
                   </div>
                 </div>
