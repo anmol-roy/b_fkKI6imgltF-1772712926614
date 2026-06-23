@@ -52,7 +52,11 @@ function CertCard({ cert, delay }: { cert: typeof CERTS[number]; delay: number }
   return (
     <motion.div {...fadeUp(delay)}
       className="relative overflow-hidden rounded-2xl flex flex-col cursor-default"
-      style={{ border: `1px solid ${cert.accent}22`, background: "rgba(255,255,255,0.025)" }}
+      style={{ 
+        border: `1px solid ${cert.accent}28`, 
+        background: "var(--card-surface)",
+        boxShadow: "0 2px 8px -4px var(--shadow-color, rgba(0,0,0,0.06))"
+      }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       whileHover={{ y: -4, scale: 1.005 }}
@@ -72,7 +76,11 @@ function CertCard({ cert, delay }: { cert: typeof CERTS[number]; delay: number }
 
       {/* Visual tile */}
       <div className="relative mx-3.5 mt-3.5 rounded-xl overflow-hidden flex items-center justify-center"
-        style={{ height: "120px", background: `linear-gradient(140deg, ${cert.iconBg} 0%, rgba(0,0,0,0.4) 100%)`, border: `1px solid ${cert.accent}18` }}>
+        style={{ 
+          height: "120px", 
+          background: `linear-gradient(140deg, ${cert.iconBg} 0%, rgba(0,0,0,0.4) 100%)`, 
+          border: `1px solid ${cert.accent}18` 
+        }}>
 
         {/* Grid dots */}
         <div className="absolute inset-0 opacity-[0.06]"
@@ -88,7 +96,11 @@ function CertCard({ cert, delay }: { cert: typeof CERTS[number]; delay: number }
         {/* Icon */}
         <motion.div animate={{ scale: hovered ? 1.12 : 1, rotate: hovered ? 8 : 0 }} transition={{ duration: 0.32 }}
           className="flex h-12 w-12 items-center justify-center rounded-2xl"
-          style={{ background: `${cert.accent}20`, border: `1.5px solid ${cert.accent}40`, boxShadow: hovered ? `0 0 24px ${cert.accent}40` : "none" }}>
+          style={{ 
+            background: `${cert.accent}20`, 
+            border: `1.5px solid ${cert.accent}40`, 
+            boxShadow: hovered ? `0 0 24px ${cert.accent}40` : "none" 
+          }}>
           <Award className="h-6 w-6" style={{ color: cert.accent }}/>
         </motion.div>
 
@@ -108,13 +120,18 @@ function CertCard({ cert, delay }: { cert: typeof CERTS[number]; delay: number }
         <span className="font-mono mb-0.5 uppercase tracking-[0.22em]"
           style={{ fontSize: "9.75px", color: `${cert.accent}99` }}>{cert.issuer}</span>
         <h3 className="font-syne font-bold leading-snug mb-1"
-          style={{ fontSize: "14.95px", color: "rgba(255,255,255,0.9)" }}>{cert.title}</h3>
-        <span className="font-mono mb-3" style={{ fontSize: "11.05px", color: "rgba(255,255,255,0.25)" }}>{cert.date}</span>
+          style={{ fontSize: "14.95px", color: "var(--text-primary)" }}>{cert.title}</h3>
+        <span className="font-mono mb-3" style={{ fontSize: "11.05px", color: "var(--text-muted)" }}>{cert.date}</span>
 
         {/* Verify CTA */}
         <motion.button onClick={handleVerify}
           className="mt-auto self-start font-dm flex items-center gap-1.5 rounded-lg px-3 py-1.5 transition-all duration-250"
-          style={{ fontSize: "12.35px", border: `1px solid ${hovered ? cert.accent+"45" : "rgba(255,255,255,0.08)"}`, color: hovered ? cert.accent : "rgba(255,255,255,0.32)", background: hovered ? `${cert.accent}10` : "transparent" }}
+          style={{ 
+            fontSize: "12.35px", 
+            border: `1px solid ${hovered ? cert.accent+"45" : "var(--card-border)"}`, 
+            color: hovered ? cert.accent : "var(--text-muted)", 
+            background: hovered ? `${cert.accent}10` : "transparent" 
+          }}
           whileTap={{ scale: 0.94 }}>
           <AnimatePresence mode="wait">
             {verified ? (
@@ -142,7 +159,11 @@ function WinsCard({ delay }: { delay: number }) {
   return (
     <motion.div {...fadeUp(delay)}
       className="relative overflow-hidden rounded-2xl flex flex-col"
-      style={{ border: "1px solid rgba(251,191,36,0.15)", background: "rgba(255,255,255,0.025)" }}>
+      style={{ 
+        border: "1px solid rgba(251,191,36,0.2)", 
+        background: "var(--card-surface)",
+        boxShadow: "0 2px 8px -4px var(--shadow-color, rgba(0,0,0,0.06))"
+      }}>
 
       <div className="absolute top-0 left-0 right-0 h-[1.5px]"
         style={{ background: "linear-gradient(90deg, transparent, rgba(251,191,36,0.6), transparent)" }}/>
@@ -152,7 +173,7 @@ function WinsCard({ delay }: { delay: number }) {
         <div className="flex items-center justify-between mb-1">
           <span className="font-mono uppercase tracking-[0.28em]"
             style={{ fontSize: "15.75px", color: "rgba(251,191,36,0.5)" }}>Wins</span>
-          <span className="font-syne font-black" style={{ fontSize: "22.1px", color: "rgba(255,255,255,0.12)" }}>7+</span>
+          <span className="font-syne font-black" style={{ fontSize: "22.1px", color: "var(--text-faint)" }}>7+</span>
         </div>
 
         {/* Win rows */}
@@ -162,7 +183,10 @@ function WinsCard({ delay }: { delay: number }) {
           return (
             <motion.div key={i}
               className="relative flex items-center gap-3 rounded-xl px-3 py-2.5 cursor-default overflow-hidden"
-              style={{ border: `1px solid ${on ? win.color+"35" : "rgba(255,255,255,0.05)"}`, background: on ? `${win.color}0b` : "rgba(255,255,255,0.02)" }}
+              style={{ 
+                border: `1px solid ${on ? win.color+"35" : "var(--card-border)"}`, 
+                background: on ? `${win.color}0b` : "var(--card-surface)" 
+              }}
               onMouseEnter={() => setActive(i)} onMouseLeave={() => setActive(null)}
               whileHover={{ x: 4 }} transition={{ duration: 0.18 }}>
 
@@ -178,7 +202,11 @@ function WinsCard({ delay }: { delay: number }) {
 
               {/* Icon tile */}
               <motion.div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl"
-                style={{ background: on ? `${win.color}20` : win.bg, border: `1px solid ${on ? win.color+"40" : win.color+"18"}`, boxShadow: on ? `0 0 14px ${win.color}30` : "none" }}
+                style={{ 
+                  background: on ? `${win.color}20` : win.bg, 
+                  border: `1px solid ${on ? win.color+"40" : win.color+"18"}`, 
+                  boxShadow: on ? `0 0 14px ${win.color}30` : "none" 
+                }}
                 animate={{ rotate: on ? [0,-10,10,0] : 0 }} transition={{ duration: 0.38 }}>
                 <Icon className="h-4 w-4" style={{ color: on ? win.color : `${win.color}90` }}/>
               </motion.div>
@@ -186,10 +214,10 @@ function WinsCard({ delay }: { delay: number }) {
               {/* Text */}
               <div className="min-w-0">
                 <div className="flex items-baseline gap-2">
-                  <span className="font-syne font-bold" style={{ fontSize: "13.65px", color: on ? win.color : "rgba(255,255,255,0.78)" }}>{win.label}</span>
-                  <span className="font-dm truncate" style={{ fontSize: "12.35px", color: "rgba(255,255,255,0.38)" }}>{win.event}</span>
+                  <span className="font-syne font-bold" style={{ fontSize: "13.65px", color: on ? win.color : "var(--text-primary)" }}>{win.label}</span>
+                  <span className="font-dm truncate" style={{ fontSize: "12.35px", color: "var(--text-tertiary)" }}>{win.event}</span>
                 </div>
-                <span className="font-mono" style={{ fontSize: "10.4px", color: on ? `${win.color}80` : "rgba(255,255,255,0.22)" }}>{win.detail}</span>
+                <span className="font-mono" style={{ fontSize: "10.4px", color: on ? `${win.color}80` : "var(--text-muted)" }}>{win.detail}</span>
               </div>
 
               {/* Right arrow */}
@@ -201,10 +229,10 @@ function WinsCard({ delay }: { delay: number }) {
         })}
 
         {/* Bottom stat */}
-        <div className="mt-auto pt-3" style={{ borderTop: "1px solid rgba(255,255,255,0.05)" }}>
+        <div className="mt-auto pt-3" style={{ borderTop: "1px solid var(--divider)" }}>
           <div className="flex items-center gap-2">
             <Star className="h-3.5 w-3.5" style={{ color: "#fbbf24" }}/>
-            <span className="font-dm" style={{ fontSize: "12.35px", color: "rgba(255,255,255,0.28)" }}>
+            <span className="font-dm" style={{ fontSize: "12.35px", color: "var(--text-muted)" }}>
               hackathons &amp; competitions
             </span>
           </div>
@@ -229,9 +257,9 @@ export default function AchievementsSection() {
       <div className="container mx-auto max-w-6xl">
         {/* Label */}
         <motion.div {...fadeUp(0)} className="mb-6 flex items-center gap-4">
-          <span className="font-mono tracking-[0.3em] uppercase" style={{ fontSize: "18.35px", color: "rgba(96,165,250,0.5)" }}>06 —</span>
-          <span className="font-syne tracking-[0.2em] uppercase" style={{ fontSize: "18.35px", color: "rgba(255,255,255,0.28)" }}>Achievements</span>
-          <span className="h-px w-[60px] bg-white/[0.08]"/>
+          <span className="font-mono tracking-[0.3em] uppercase" style={{ fontSize: "18.35px", color: "var(--section-num)" }}>06 —</span>
+          <span className="font-syne tracking-[0.2em] uppercase" style={{ fontSize: "18.35px", color: "var(--section-label)" }}>Achievements</span>
+          <span className="h-px w-[60px]" style={{ background: "var(--divider)" }}/>
         </motion.div>
 
         {/* Cards */}

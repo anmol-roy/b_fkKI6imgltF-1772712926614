@@ -65,25 +65,25 @@ const CASE_STUDIES: CaseStudy[] = [
     accent: "#c4b5fd", accentMuted: "rgba(196,181,253,0.07)",
     problem:  "Existing image recognition apps require a network round-trip — unusable in low-connectivity environments like agriculture or wildlife monitoring fieldwork.",
     approach: "Selected MobileNetV3-Small, fine-tuned on 12k domain images, converted to TFLite with full-integer quantisation. Built Flutter UI for one-handed use.",
-    outcome:  "Shipped to Play Store and App Store. 4.7\u2605 across 800+ reviews. Adopted by two agricultural NGOs in India for crop disease identification.",
+    outcome:  "Shipped to Play Store and App Store. 4.7★ across 800+ reviews. Adopted by two agricultural NGOs in India for crop disease identification.",
     tags: ["Flutter", "TensorFlow Lite", "Python", "Dart", "Firebase"],
     tagColors: ["#67e8f9", "#fb923c", "#60a5fa", "#c4b5fd", "#fbbf24"],
     metrics: [
-      { label: "Inference time",   before: "\u2014", after: "74ms",    delta: "On-device",    positive: true, afterColor: "#67e8f9" },
-      { label: "Model size",       before: "\u2014", after: "4.2 MB",  delta: "No server",    positive: true, afterColor: "#86efac" },
-      { label: "App store rating", before: "\u2014", after: "4.7 \u2605", delta: "800+ reviews", positive: true, afterColor: "#fbbf24" },
-      { label: "Top-5 accuracy",   before: "\u2014", after: "94.1%",   delta: "1000 classes", positive: true, afterColor: "#c4b5fd" },
+      { label: "Inference time",   before: "—", after: "74ms",    delta: "On-device",    positive: true, afterColor: "#67e8f9" },
+      { label: "Model size",       before: "—", after: "4.2 MB",  delta: "No server",    positive: true, afterColor: "#86efac" },
+      { label: "App store rating", before: "—", after: "4.7 ★",   delta: "800+ reviews", positive: true, afterColor: "#fbbf24" },
+      { label: "Top-5 accuracy",   before: "—", after: "94.1%",   delta: "1000 classes", positive: true, afterColor: "#c4b5fd" },
     ],
     phases: [
       { title: "Model selection & training",
         summary: "Chose the smallest model that met the accuracy bar.",
-        bullets: ["Benchmarked MobileNetV2, V3-Small, V3-Large, EfficientNet-Lite0","MobileNetV3-Small hit 93.8% top-5 at 4.2MB \u2014 best trade-off","Fine-tuned on 12k domain images with aggressive augmentation"] },
+        bullets: ["Benchmarked MobileNetV2, V3-Small, V3-Large, EfficientNet-Lite0","MobileNetV3-Small hit 93.8% top-5 at 4.2MB — best trade-off","Fine-tuned on 12k domain images with aggressive augmentation"] },
       { title: "On-device conversion",
         summary: "Quantised to INT8 without hitting the accuracy floor.",
-        bullets: ["Used TFLite converter with representative dataset calibration","Full-integer quantisation brought model to 4.2MB from 16MB","Validated on 500 held-out samples \u2014 94.1% top-5 achieved"] },
+        bullets: ["Used TFLite converter with representative dataset calibration","Full-integer quantisation brought model to 4.2MB from 16MB","Validated on 500 held-out samples — 94.1% top-5 achieved"] },
       { title: "UX & Flutter build",
         summary: "Designed for one-handed fieldwork use.",
-        bullets: ["Camera auto-focuses on subject \u2014 no tap required","Results appear in <100ms after shutter with confidence bar","Offline-first: zero network calls, all inference local"] },
+        bullets: ["Camera auto-focuses on subject — no tap required","Results appear in <100ms after shutter with confidence bar","Offline-first: zero network calls, all inference local"] },
     ],
   },
   {
@@ -92,32 +92,31 @@ const CASE_STUDIES: CaseStudy[] = [
     subtitle: "Reliable event ingestion for a real-time analytics platform",
     role: "Backend Engineer", duration: "8 weeks", team: "3 engineers", year: "2024",
     accent: "#86efac", accentMuted: "rgba(134,239,172,0.07)",
-    problem:  "A dashboard product was silently dropping 3\u20138% of incoming events during traffic spikes, corrupting analytics data. No queue \u2014 any downstream slowness caused dropped writes.",
+    problem:  "A dashboard product was silently dropping 3–8% of incoming events during traffic spikes, corrupting analytics data. No queue — any downstream slowness caused dropped writes.",
     approach: "Introduced a Kafka-based event bus between HTTP endpoint and DB writers. Designed dead-letter queue strategy. Rewrote consumer in Go. Added end-to-end event tracing.",
-    outcome:  "Event drop rate fell from 5.2% to 0.0% over 60 days. Peak throughput increased 8\u00d7. Audit trail enables post-hoc replay of any 30-day window.",
+    outcome:  "Event drop rate fell from 5.2% to 0.0% over 60 days. Peak throughput increased 8×. Audit trail enables post-hoc replay of any 30-day window.",
     tags: ["Kafka", "Go", "PostgreSQL", "Redis", "Prometheus"],
     tagColors: ["#fbbf24", "#86efac", "#818cf8", "#f472b6", "#fb923c"],
     metrics: [
-      { label: "Event drop rate",   before: "5.2%",   after: "0.0%",     delta: "\u2212100%",       positive: true,  afterColor: "#34d399" },
-      { label: "Peak throughput",   before: "1.2k/s", after: "9.8k/s",   delta: "+716%",             positive: true,  afterColor: "#86efac" },
-      { label: "P99 write latency", before: "840ms",  after: "95ms",     delta: "\u221289%",         positive: true,  afterColor: "#60a5fa" },
-      { label: "Infra overhead",    before: "\u2014",  after: "+$180/mo", delta: "Kafka cluster",     positive: false, afterColor: "#fca5a5" },
+      { label: "Event drop rate",   before: "5.2%",   after: "0.0%",     delta: "−100%",         positive: true,  afterColor: "#34d399" },
+      { label: "Peak throughput",   before: "1.2k/s", after: "9.8k/s",   delta: "+716%",          positive: true,  afterColor: "#86efac" },
+      { label: "P99 write latency", before: "840ms",  after: "95ms",     delta: "−89%",           positive: true,  afterColor: "#60a5fa" },
+      { label: "Infra overhead",    before: "—",       after: "+$180/mo", delta: "Kafka cluster",  positive: false, afterColor: "#fca5a5" },
     ],
     phases: [
       { title: "Failure analysis",
         summary: "Traced exactly where and why events were being lost.",
-        bullets: ["Added request-ID headers and correlated with DB write logs","Confirmed drops happened during P99 DB latency spikes","Quantified drop rate at 3\u20138% using 72h of production logs"] },
+        bullets: ["Added request-ID headers and correlated with DB write logs","Confirmed drops happened during P99 DB latency spikes","Quantified drop rate at 3–8% using 72h of production logs"] },
       { title: "Queue architecture",
         summary: "Decoupled ingestion from writes with Kafka.",
         bullets: ["3-broker Kafka cluster with replication factor 3","Partitioned by user_id for ordered per-user event streams","Dead-letter topic for schema-invalid events with alert trigger"] },
       { title: "Consumer rewrite & observability",
         summary: "Rebuilt consumers in Go with full tracing.",
-        bullets: ["Go consumer with worker pool \u2014 8 workers per partition","Prometheus metrics: consumer lag, throughput, DLQ rate","Grafana SLO alert at >0.01% drop rate"] },
+        bullets: ["Go consumer with worker pool — 8 workers per partition","Prometheus metrics: consumer lag, throughput, DLQ rate","Grafana SLO alert at >0.01% drop rate"] },
     ],
   },
 ];
 
-// ─── Directional border ───────────────────────────────────────────────────────
 function useDirectionalBorder(accent: string) {
   const ref = useRef<HTMLDivElement>(null);
   const [grad, setGrad] = useState("none");
@@ -139,8 +138,12 @@ function useDirectionalBorder(accent: string) {
 function GlowBorderCard({ children, accent, className }: { children: React.ReactNode; accent: string; className?: string }) {
   const { ref, grad, opacity, onMouseMove, onMouseLeave } = useDirectionalBorder(accent);
   return (
-    <div ref={ref} className={`relative overflow-hidden rounded-2xl bg-white/[0.03] backdrop-blur-sm ${className??""}`}
-      style={{ border:"1px solid rgba(255,255,255,0.07)" }}
+    <div ref={ref} className={`relative overflow-hidden rounded-2xl backdrop-blur-sm ${className??""}`}
+      style={{
+        border: "1px solid var(--card-border)",
+        background: "var(--card-surface, rgba(255,255,255,0.7))",
+        boxShadow: "0 2px 8px -4px var(--shadow-color, rgba(0,0,0,0.06))"
+      }}
       onMouseMove={onMouseMove} onMouseLeave={onMouseLeave}>
       <span aria-hidden style={{
         position:"absolute",inset:0,borderRadius:"inherit",padding:"1px",background:grad,
@@ -153,18 +156,23 @@ function GlowBorderCard({ children, accent, className }: { children: React.React
   );
 }
 
-// ─── Metric row ───────────────────────────────────────────────────────────────
 function MetricPill({ metric }: { metric: Metric }) {
   return (
-    <div className="flex items-center justify-between py-2.5 border-b border-white/[0.04] last:border-0">
-      <span className="font-dm" style={{ fontSize:"13px", color:"rgba(255,255,255,0.35)" }}>{metric.label}</span>
-      <div className="flex items-center gap-3">
-        {metric.before !== "\u2014" && (
-          <span className="font-mono line-through" style={{ fontSize:"11.7px", color:"rgba(255,255,255,0.18)" }}>{metric.before}</span>
+    <div className="flex items-center justify-between py-2 last:border-0 gap-2"
+      style={{ borderBottom: "1px solid var(--divider)" }}>
+      <span className="font-dm truncate" style={{ fontSize:"12px", color:"var(--text-tertiary)", minWidth:0, flex:1 }}>
+        {metric.label}
+      </span>
+      <div className="flex items-center gap-2 shrink-0">
+        {metric.before !== "—" && (
+          <span className="font-mono line-through hidden sm:inline"
+            style={{ fontSize:"11px", color:"var(--text-faint)" }}>{metric.before}</span>
         )}
-        <span className="font-syne font-bold" style={{ fontSize:"14.3px", color:metric.afterColor }}>{metric.after}</span>
-        <span className="font-mono rounded px-1.5 py-px"
-          style={{ fontSize:"10.4px", color:metric.positive ? metric.afterColor : "#fca5a5", background:metric.positive ? `${metric.afterColor}14` : "rgba(252,165,165,0.08)" }}>
+        <span className="font-syne font-bold" style={{ fontSize:"13px", color:metric.afterColor }}>
+          {metric.after}
+        </span>
+        <span className="font-mono rounded px-1.5 py-px whitespace-nowrap"
+          style={{ fontSize:"10px", color:metric.positive ? metric.afterColor : "#fca5a5", background:metric.positive ? `${metric.afterColor}14` : "rgba(252,165,165,0.08)" }}>
           {metric.delta}
         </span>
       </div>
@@ -172,132 +180,163 @@ function MetricPill({ metric }: { metric: Metric }) {
   );
 }
 
-// ─── Card ─────────────────────────────────────────────────────────────────────
 function CaseStudyCard({ study, index }: { study: CaseStudy; index: number }) {
   const [expanded, setExpanded] = useState(false);
   const [activePhase, setActivePhase] = useState(0);
 
   const summaryItems = [
-    { icon: AlertCircle,  label: "Problem",  text: study.problem,  ic: "#fca5a5", tc: "rgba(252,165,165,0.68)",  bg: "rgba(252,165,165,0.06)",  bd: "rgba(252,165,165,0.14)" },
-    { icon: Lightbulb,    label: "Approach", text: study.approach, ic: "#fbbf24", tc: "rgba(251,191,36,0.65)",   bg: "rgba(251,191,36,0.06)",   bd: "rgba(251,191,36,0.14)"  },
-    { icon: CheckCircle2, label: "Outcome",  text: study.outcome,  ic: "#86efac", tc: "rgba(134,239,172,0.65)",  bg: "rgba(134,239,172,0.06)",  bd: "rgba(134,239,172,0.14)" },
+    { icon: AlertCircle,  label: "Problem",  text: study.problem,  ic: "#fca5a5", bg: "rgba(252,165,165,0.06)",  bd: "rgba(252,165,165,0.14)" },
+    { icon: Lightbulb,    label: "Approach", text: study.approach, ic: "#fbbf24", bg: "rgba(251,191,36,0.06)",   bd: "rgba(251,191,36,0.14)"  },
+    { icon: CheckCircle2, label: "Outcome",  text: study.outcome,  ic: "#86efac", bg: "rgba(134,239,172,0.06)",  bd: "rgba(134,239,172,0.14)" },
   ];
 
   return (
-    <motion.div {...fadeUp(0.05*index)}>
+    <motion.div {...fadeUp(0.05 * index)}>
       <GlowBorderCard accent={study.accent}>
         <div className="absolute top-0 left-0 right-0 h-px"
           style={{ background:`linear-gradient(90deg,transparent,${study.accent}55,transparent)` }}/>
 
-        <div className="p-5 sm:p-6">
-          {/* Title row */}
-          <div className="flex items-start justify-between gap-4 mb-4">
-            <div className="flex items-baseline gap-3 min-w-0">
-              <span className="font-syne font-black tracking-tighter shrink-0"
-                style={{ fontSize:"26px", color:`${study.accent}2e` }}>{study.index}</span>
+        <div className="p-4 sm:p-6">
+
+          {/* ── Title row ── */}
+          <div className="mb-3">
+            <div className="flex items-start gap-2 mb-1">
+              <span className="font-syne font-black tracking-tighter shrink-0 leading-none"
+                style={{ fontSize:"22px", color:`${study.accent}2e`, marginTop:"2px" }}>
+                {study.index}
+              </span>
               <div className="min-w-0">
                 <h3 className="font-syne font-bold tracking-tight leading-snug"
-                  style={{ fontSize:"17.55px", color:"rgba(255,255,255,0.92)" }}>{study.title}</h3>
-                <p className="font-dm mt-0.5" style={{ fontSize:"13px", color:`${study.accent}78` }}>{study.subtitle}</p>
+                  style={{ fontSize:"clamp(14px, 3.5vw, 17px)", color:"var(--text-primary)" }}>
+                  {study.title}
+                </h3>
+                <p className="font-dm mt-0.5 leading-snug"
+                  style={{ fontSize:"12px", color:`${study.accent}78` }}>
+                  {study.subtitle}
+                </p>
               </div>
             </div>
-            <div className="flex items-center gap-3 shrink-0">
-              <span className="font-mono flex items-center gap-1" style={{ fontSize:"11.7px", color:`${study.accent}65` }}>
-                <Clock className="h-2.5 w-2.5"/>{study.duration}
+
+            {/* Meta row — wraps gracefully on mobile */}
+            <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mt-2 ml-8">
+              <span className="font-mono flex items-center gap-1"
+                style={{ fontSize:"11px", color:`${study.accent}65` }}>
+                <Clock className="h-2.5 w-2.5 shrink-0"/>{study.duration}
               </span>
-              <span className="font-mono flex items-center gap-1" style={{ fontSize:"11.7px", color:"rgba(255,255,255,0.28)" }}>
-                <Users className="h-2.5 w-2.5"/>{study.team}
+              <span className="font-mono flex items-center gap-1"
+                style={{ fontSize:"11px", color:"var(--text-muted)" }}>
+                <Users className="h-2.5 w-2.5 shrink-0"/>{study.team}
               </span>
-              <span className="font-mono" style={{ fontSize:"11.7px", color:"rgba(255,255,255,0.22)" }}>{study.year}</span>
+              <span className="font-mono"
+                style={{ fontSize:"11px", color:"var(--text-faint)" }}>
+                {study.year}
+              </span>
             </div>
           </div>
 
-          {/* Tags */}
+          {/* ── Tags ── */}
           <div className="flex flex-wrap gap-1 mb-4">
-            {study.tags.slice(0,4).map((t,i) => (
+            {study.tags.slice(0, 4).map((t, i) => (
               <span key={t} className="font-mono rounded border px-2 py-px"
-                style={{ fontSize:"10.4px", color:`${study.tagColors[i%study.tagColors.length]}d9`, background:`${study.tagColors[i%study.tagColors.length]}0d`, borderColor:`${study.tagColors[i%study.tagColors.length]}28` }}>
+                style={{ fontSize:"10px", color:`${study.tagColors[i % study.tagColors.length]}d9`, background:`${study.tagColors[i % study.tagColors.length]}0d`, borderColor:`${study.tagColors[i % study.tagColors.length]}28` }}>
                 {t}
               </span>
             ))}
-            {study.tags.length>4 && (
-              <span className="font-mono px-1" style={{ fontSize:"10.4px", color:"rgba(255,255,255,0.2)" }}>+{study.tags.length-4}</span>
+            {study.tags.length > 4 && (
+              <span className="font-mono px-1" style={{ fontSize:"10px", color:"var(--text-faint)" }}>
+                +{study.tags.length - 4}
+              </span>
             )}
           </div>
 
-          {/* Summary 3-col */}
-          <div className="grid sm:grid-cols-3 gap-2 mb-4">
-            {summaryItems.map(({ icon:Icon, label, text, ic, tc, bg, bd }) => (
+          {/* ── Summary — stacked on mobile, 3-col on sm+ ── */}
+          <div className="flex flex-col sm:grid sm:grid-cols-3 gap-2 mb-4">
+            {summaryItems.map(({ icon: Icon, label, text, ic, bg, bd }) => (
               <div key={label} className="rounded-lg px-3 py-2.5"
-                style={{ background:bg, border:`1px solid ${bd}` }}>
-                <div className="flex items-center gap-1.5 mb-1.5">
-                  <Icon className="h-3 w-3 shrink-0" style={{ color:ic }}/>
-                  <span className="font-mono tracking-[0.18em] uppercase" style={{ fontSize:"9.1px", color:ic }}>{label}</span>
+                style={{ background: bg, border:`1px solid ${bd}` }}>
+                <div className="flex items-center gap-1.5 mb-1">
+                  <Icon className="h-3 w-3 shrink-0" style={{ color: ic }}/>
+                  <span className="font-mono tracking-[0.18em] uppercase"
+                    style={{ fontSize:"9px", color: ic }}>{label}</span>
                 </div>
-                <p className="font-dm leading-[1.72] line-clamp-3" style={{ fontSize:"11.7px", color:tc }}>{text}</p>
+                <p className="font-dm leading-[1.65]"
+                  style={{ fontSize:"12px", color:"var(--text-secondary)" }}>
+                  {text}
+                </p>
               </div>
             ))}
           </div>
 
-          {/* Toggle */}
-          <button onClick={() => setExpanded(v=>!v)}
-            className="font-dm flex items-center gap-1.5 transition-colors duration-200"
-            style={{ fontSize:"13px", color:"rgba(255,255,255,0.3)" }}
-            onMouseEnter={(e)=>(e.currentTarget.style.color=study.accent)}
-            onMouseLeave={(e)=>(e.currentTarget.style.color="rgba(255,255,255,0.3)")}>
-            <TrendingUp className="h-3.5 w-3.5"/>
+          {/* ── Toggle ── */}
+          <button onClick={() => setExpanded(v => !v)}
+            className="font-dm flex items-center gap-1.5 transition-colors duration-200 py-1"
+            style={{ fontSize:"13px", color:"var(--text-muted)" }}
+            onMouseEnter={(e) => (e.currentTarget.style.color = study.accent)}
+            onMouseLeave={(e) => (e.currentTarget.style.color = "var(--text-muted)")}>
+            <TrendingUp className="h-3.5 w-3.5 shrink-0"/>
             {expanded ? "Hide" : "View"} metrics &amp; process
-            <motion.span animate={{ rotate:expanded?180:0 }} transition={{ duration:0.2 }} className="inline-flex">
+            <motion.span animate={{ rotate: expanded ? 180 : 0 }} transition={{ duration: 0.2 }} className="inline-flex">
               <ChevronDown className="h-3.5 w-3.5"/>
             </motion.span>
           </button>
         </div>
 
-        {/* Expanded */}
+        {/* ── Expanded panel ── */}
         <AnimatePresence>
           {expanded && (
-            <motion.div initial={{ height:0,opacity:0 }} animate={{ height:"auto",opacity:1 }}
-              exit={{ height:0,opacity:0 }} transition={{ duration:0.35,ease:[0.25,0.46,0.45,0.94] }}
+            <motion.div
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: "auto", opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.35, ease:[0.25,0.46,0.45,0.94] }}
               className="overflow-hidden">
-              <div className="border-t border-white/[0.05] grid lg:grid-cols-2">
+              {/* stacked on mobile, side-by-side on lg */}
+              <div className="border-t grid grid-cols-1 lg:grid-cols-2"
+                style={{ borderColor:"var(--divider)" }}>
+
                 {/* Metrics */}
-                <div className="p-5 sm:p-6 border-b lg:border-b-0 lg:border-r border-white/[0.05]">
+                <div className="p-4 sm:p-6 border-b lg:border-b-0 lg:border-r"
+                  style={{ borderColor:"var(--divider)" }}>
                   <p className="font-mono mb-3 tracking-[0.25em] uppercase"
-                    style={{ fontSize:"10.4px", color:`${study.accent}55` }}>Results</p>
+                    style={{ fontSize:"10px", color:`${study.accent}55` }}>Results</p>
                   {study.metrics.map(m => <MetricPill key={m.label} metric={m}/>)}
                 </div>
 
                 {/* Process */}
-                <div className="p-5 sm:p-6">
+                <div className="p-4 sm:p-6">
                   <p className="font-mono mb-3 tracking-[0.25em] uppercase"
-                    style={{ fontSize:"10.4px", color:`${study.accent}55` }}>Process</p>
-                  <div className="flex gap-1.5 mb-4">
-                    {study.phases.map((_,i) => (
+                    style={{ fontSize:"10px", color:`${study.accent}55` }}>Process</p>
+
+                  {/* Phase tabs — scrollable on mobile */}
+                  <div className="flex gap-1.5 mb-4 overflow-x-auto pb-1 scrollbar-hide">
+                    {study.phases.map((phase, i) => (
                       <button key={i} onClick={() => setActivePhase(i)}
-                        className="font-mono rounded px-2.5 py-1 transition-all duration-200"
-                        style={{ fontSize:"11.7px", background:activePhase===i?study.accentMuted:"transparent", border:`1px solid ${activePhase===i?study.accent+"30":"rgba(255,255,255,0.06)"}`, color:activePhase===i?study.accent:"rgba(255,255,255,0.28)" }}>
-                        {String(i+1).padStart(2,"0")}
+                        className="font-mono rounded px-2.5 py-1 transition-all duration-200 shrink-0"
+                        style={{ fontSize:"11px", background:activePhase===i ? study.accentMuted : "transparent", border:`1px solid ${activePhase===i ? study.accent+"30" : "var(--card-border)"}`, color:activePhase===i ? study.accent : "var(--text-muted)" }}>
+                        {String(i + 1).padStart(2, "0")}
                       </button>
                     ))}
                   </div>
 
                   <AnimatePresence mode="wait">
                     <motion.div key={activePhase}
-                      initial={{ opacity:0,y:6 }} animate={{ opacity:1,y:0 }}
-                      exit={{ opacity:0,y:-6 }} transition={{ duration:0.18 }}>
-                      <p className="font-syne font-bold mb-0.5" style={{ fontSize:"14.3px", color:study.accent }}>
+                      initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -6 }} transition={{ duration: 0.18 }}>
+                      <p className="font-syne font-bold mb-0.5"
+                        style={{ fontSize:"14px", color: study.accent }}>
                         {study.phases[activePhase].title}
                       </p>
                       <p className="font-dm leading-relaxed mb-2.5"
-                        style={{ fontSize:"13px", color:`${study.accent}62` }}>
+                        style={{ fontSize:"12px", color:`${study.accent}62` }}>
                         {study.phases[activePhase].summary}
                       </p>
                       <ul className="flex flex-col gap-1.5">
-                        {study.phases[activePhase].bullets.map((b,i) => (
-                          <motion.li key={i} initial={{ opacity:0,x:-5 }} animate={{ opacity:1,x:0 }}
-                            transition={{ delay:i*0.05 }}
+                        {study.phases[activePhase].bullets.map((b, i) => (
+                          <motion.li key={i}
+                            initial={{ opacity: 0, x: -5 }} animate={{ opacity: 1, x: 0 }}
+                            transition={{ delay: i * 0.05 }}
                             className="font-dm flex items-start gap-2 leading-[1.7]"
-                            style={{ fontSize:"13px", color:"rgba(255,255,255,0.42)" }}>
+                            style={{ fontSize:"12px", color:"var(--text-tertiary)" }}>
                             <span className="mt-2 h-1 w-1 rounded-full shrink-0"
                               style={{ background:`${study.accent}80` }}/>
                             {b}
@@ -307,6 +346,7 @@ function CaseStudyCard({ study, index }: { study: CaseStudy; index: number }) {
                     </motion.div>
                   </AnimatePresence>
                 </div>
+
               </div>
             </motion.div>
           )}
@@ -316,51 +356,61 @@ function CaseStudyCard({ study, index }: { study: CaseStudy; index: number }) {
   );
 }
 
-// ─── Section ──────────────────────────────────────────────────────────────────
 export default function CaseStudiesSection() {
   return (
-    <section id="case-studies" className="relative px-6 sm:px-10 lg:px-16 py-24 sm:py-32" style={{ background:"transparent" }}>
+    <section id="case-studies" className="relative px-4 sm:px-8 lg:px-16 py-16 sm:py-24 lg:py-32"
+      style={{ background: "transparent" }}>
       <style jsx global>{`
         @import url('https://fonts.googleapis.com/css2?family=Syne:wght@700;800;900&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=JetBrains+Mono:wght@400;500&display=swap');
-        .font-syne{font-family:'Syne',sans-serif;}
-        .font-dm{font-family:'DM Sans',sans-serif;}
-        .font-mono{font-family:'JetBrains Mono',monospace;}
-        @keyframes shimmer{from{background-position:0% center;}to{background-position:200% center;}}
+        .font-syne { font-family: 'Syne', sans-serif; }
+        .font-dm   { font-family: 'DM Sans', sans-serif; }
+        .font-mono { font-family: 'JetBrains Mono', monospace; }
+        .scrollbar-hide::-webkit-scrollbar { display: none; }
+        .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+        @keyframes shimmer { from { background-position: 0% center; } to { background-position: 200% center; } }
       `}</style>
 
-      <div className="container mx-auto max-w-6xl">
-        <motion.div {...fadeUp(0)} className="mb-10 flex items-center gap-4">
-          <span className="font-mono tracking-[0.3em] uppercase" style={{ fontSize:"13px", color:"rgba(134,239,172,0.5)" }}>04 —</span>
-          <span className="font-syne tracking-[0.2em] uppercase" style={{ fontSize:"13px", color:"rgba(255,255,255,0.3)" }}>Case Studies</span>
-          <span className="h-px w-[60px] bg-white/[0.08]"/>
+      <div className="container mx-auto max-w-5xl">
+
+        {/* Section label */}
+        <motion.div {...fadeUp(0)} className="mb-8 flex items-center gap-3 flex-wrap">
+          <span className="font-mono tracking-[0.3em] uppercase"
+            style={{ fontSize:"12px", color:"var(--section-num)" }}>04 —</span>
+          <span className="font-syne tracking-[0.2em] uppercase"
+            style={{ fontSize:"12px", color:"var(--section-label)" }}>Case Studies</span>
+          <span className="h-px w-10 hidden sm:block" style={{ background:"var(--divider)" }}/>
         </motion.div>
 
+        {/* Heading */}
         <motion.div {...fadeUp(0.05)} className="mb-3">
-          <h2 className="font-syne font-bold tracking-tight text-white leading-[1.08]"
-            style={{ fontSize:"clamp(2rem,5vw,4rem)" }}>
+          <h2 className="font-syne font-bold tracking-tight leading-[1.08]"
+            style={{ fontSize:"clamp(1.75rem, 6vw, 3.5rem)", color:"var(--text-primary)" }}>
             How I solve{" "}
             <span className="bg-clip-text text-transparent"
-              style={{ backgroundImage:"linear-gradient(120deg,#93c5fd 0%,#c4b5fd 45%,#f472b6 100%)",backgroundSize:"200% auto",animation:"shimmer 6s linear infinite" }}>
+              style={{ backgroundImage:"linear-gradient(120deg,#93c5fd 0%,#c4b5fd 45%,#f472b6 100%)", backgroundSize:"200% auto", animation:"shimmer 6s linear infinite" }}>
               hard problems.
             </span>
           </h2>
         </motion.div>
 
-        <motion.p {...fadeUp(0.1)} className="font-dm mb-10 max-w-lg leading-[1.85]"
-          style={{ fontSize:"15.6px", color:"rgba(255,255,255,0.32)" }}>
+        <motion.p {...fadeUp(0.1)} className="font-dm mb-8 max-w-lg leading-[1.85]"
+          style={{ fontSize:"clamp(13px, 3vw, 15px)", color:"var(--text-muted)" }}>
           Real engineering challenges — the problem, the decisions, and the measurable outcome.
         </motion.p>
 
         <div className="flex flex-col gap-3">
-          {CASE_STUDIES.map((study,i) => <CaseStudyCard key={study.id} study={study} index={i}/>)}
+          {CASE_STUDIES.map((study, i) => (
+            <CaseStudyCard key={study.id} study={study} index={i}/>
+          ))}
         </div>
 
-        <motion.div {...fadeUp(0.2)} className="mt-10 flex items-center gap-3">
-          <span className="h-px flex-1 max-w-[40px] bg-white/[0.06]"/>
-          <p className="font-mono" style={{ fontSize:"11.7px", color:"rgba(255,255,255,0.18)" }}>
+        <motion.div {...fadeUp(0.2)} className="mt-8 flex items-center gap-3">
+          <span className="h-px w-8 shrink-0" style={{ background:"var(--divider)" }}/>
+          <p className="font-mono" style={{ fontSize:"11px", color:"var(--text-faint)" }}>
             All metrics from production data. Some details anonymised.
           </p>
         </motion.div>
+
       </div>
     </section>
   );

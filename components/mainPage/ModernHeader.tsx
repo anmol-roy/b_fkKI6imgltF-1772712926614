@@ -30,10 +30,8 @@ export default function ModernHeader({ activeSection, setActiveSection }: Modern
     const updateScroll = () => {
       const currentScrollY = window.scrollY;
       
-      // Check if scrolled past a certain point (for half-sticky effect)
       setIsScrolled(currentScrollY > 100);
       
-      // Only update if scroll difference is significant enough
       if (Math.abs(currentScrollY - lastScrollY) > 5) {
         setHidden(currentScrollY > lastScrollY && currentScrollY > 100);
         lastScrollY = currentScrollY;
@@ -285,7 +283,7 @@ export default function ModernHeader({ activeSection, setActiveSection }: Modern
     },
     {
       name: "Email",
-      url: "royalanmol113.email@gmail.com",
+      url: "mailto:royalanmol113@gmail.com",
       icon: (
         <svg
           className="w-4 h-4"
@@ -381,9 +379,6 @@ export default function ModernHeader({ activeSection, setActiveSection }: Modern
     scrollToSection(section);
   }, [setActiveSection, scrollToSection]);
 
-  // Check if we're not on the overview section (home)
-  const isNotOverview = activeSection !== "overview";
-
   return (
     <>
       {/* Main Header */}
@@ -416,7 +411,7 @@ export default function ModernHeader({ activeSection, setActiveSection }: Modern
             <div>
               <div className="flex items-center space-x-2 lg:space-x-4">
                 <div className="relative">
-                  <div className="absolute -inset-1 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 opacity-20 blur-sm"></div>
+                  <div className="absolute -inset-1 rounded-full bg-linear-to-r from-blue-500 to-purple-500 opacity-20 blur-sm"></div>
                   <div className="relative flex h-8 w-8 lg:h-10 lg:w-10 items-center justify-center rounded-full bg-[#0a0339] border border-white/20">
                     <Link href="/" className="flex items-center justify-center">
                       <Image
@@ -430,7 +425,7 @@ export default function ModernHeader({ activeSection, setActiveSection }: Modern
                   </div>
                 </div>
                 <div className="flex flex-col">
-                  <span className="text-white font-bold text-base lg:text-lg tracking-tight bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
+                  <span className="font-bold text-base lg:text-lg tracking-tight bg-linear-to-r from-white to-gray-300 bg-clip-text text-transparent">
                     Anmol Roy
                   </span>
                 </div>
@@ -443,7 +438,12 @@ export default function ModernHeader({ activeSection, setActiveSection }: Modern
                   onClick={handleResumeDownload}
                   whileHover={{ scale: 1.05, y: -1 }}
                   whileTap={{ scale: 0.95 }}
-                  className="px-2 py-1.5 lg:px-3 lg:py-2 text-xs lg:text-sm font-medium text-white bg-transparent border border-white/30 rounded-lg hover:bg-white/10 transition-all duration-300 flex items-center space-x-1 lg:space-x-2 shadow-lg hover:shadow-blue-500/10"
+                  className="px-2 py-1.5 lg:px-3 lg:py-2 text-xs lg:text-sm font-medium transition-all duration-300 flex items-center space-x-1 lg:space-x-2 shadow-lg hover:shadow-blue-500/10 rounded-lg border"
+                  style={{
+                    color: "var(--nav-active)",
+                    borderColor: "var(--header-border)",
+                    background: "transparent",
+                  }}
                 >
                   <span>Resume</span>
                   <svg
@@ -470,7 +470,12 @@ export default function ModernHeader({ activeSection, setActiveSection }: Modern
                     aria-controls="connect-menu"
                     whileHover={{ scale: 1.05, y: -1 }}
                     whileTap={{ scale: 0.95 }}
-                    className="px-2 py-1.5 lg:px-3 lg:py-2 text-xs lg:text-sm font-medium text-white bg-transparent border border-white/30 rounded-lg hover:bg-white/10 transition-all duration-300 flex items-center space-x-1 lg:space-x-2 shadow-lg hover:shadow-blue-500/10"
+                    className="px-2 py-1.5 lg:px-3 lg:py-2 text-xs lg:text-sm font-medium transition-all duration-300 flex items-center space-x-1 lg:space-x-2 shadow-lg hover:shadow-blue-500/10 rounded-lg border"
+                    style={{
+                      color: "var(--nav-active)",
+                      borderColor: "var(--header-border)",
+                      background: "transparent",
+                    }}
                   >
                     <span>Connect</span>
                     <motion.div
@@ -512,7 +517,7 @@ export default function ModernHeader({ activeSection, setActiveSection }: Modern
                         onMouseLeave={() => setIsConnectOpen(false)}
                       >
                         <div className="p-2 lg:p-3">
-                          <div className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2 px-2">
+                          <div className="text-xs font-semibold uppercase tracking-wider mb-2 px-2" style={{ color: "var(--text-muted)" }}>
                             Connect with me
                           </div>
                           {socialLinks.map((social, index) => (
@@ -525,10 +530,13 @@ export default function ModernHeader({ activeSection, setActiveSection }: Modern
                               animate={{ opacity: 1, x: 0 }}
                               transition={{ delay: index * 0.1 }}
                               whileHover={{ scale: 1.02, x: 5 }}
-                              className={`flex items-center space-x-3 w-full px-2 py-2 lg:px-3 lg:py-3 text-xs lg:text-sm text-white rounded-lg transition-all duration-200 ${social.color} hover:bg-opacity-20 border border-transparent hover:border-white/10`}
+                              className={`flex items-center space-x-3 w-full px-2 py-2 lg:px-3 lg:py-3 text-xs lg:text-sm rounded-lg transition-all duration-200 border border-transparent hover:border-white/10`}
+                              style={{
+                                color: "var(--text-primary)",
+                              }}
                               role="menuitem"
                             >
-                              <div className="flex items-center justify-center w-4 h-4 lg:w-5 lg:h-5">
+                              <div className="flex items-center justify-center w-4 h-4 lg:w-5 lg:h-5" style={{ color: "var(--text-secondary)" }}>
                                 {social.icon}
                               </div>
                               <span className="font-medium">{social.name}</span>
@@ -549,7 +557,12 @@ export default function ModernHeader({ activeSection, setActiveSection }: Modern
                     aria-label="Toggle theme"
                     whileHover={{ scale: 1.05, y: -1 }}
                     whileTap={{ scale: 0.95 }}
-                    className="px-2 py-1.5 lg:px-3 lg:py-2 text-xs lg:text-sm font-medium text-white bg-transparent border border-white/30 rounded-lg hover:bg-white/10 transition-all duration-300 flex items-center space-x-1 lg:space-x-2 shadow-lg hover:shadow-blue-500/10"
+                    className="px-2 py-1.5 lg:px-3 lg:py-2 text-xs lg:text-sm font-medium transition-all duration-300 flex items-center space-x-1 lg:space-x-2 shadow-lg hover:shadow-blue-500/10 rounded-lg border"
+                    style={{
+                      color: "var(--nav-active)",
+                      borderColor: "var(--header-border)",
+                      background: "transparent",
+                    }}
                   >
                     <AnimatePresence mode="wait">
                       {resolvedTheme === "dark" ? (
@@ -603,11 +616,16 @@ export default function ModernHeader({ activeSection, setActiveSection }: Modern
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         exit={{ opacity: 0, y: 10, scale: 0.95 }}
                         transition={{ duration: 0.2 }}
-                        className="absolute right-0 top-full mt-2 w-40 bg-[#1a0b3c] dark:bg-[#1a0b3c] border border-white/20 rounded-lg shadow-2xl shadow-blue-500/20 backdrop-blur-xl z-50"
+                        className="absolute right-0 top-full mt-2 w-40 border rounded-lg shadow-2xl backdrop-blur-xl z-50"
+                        style={{
+                          background: "var(--dropdown-bg)",
+                          borderColor: "var(--dropdown-border)",
+                          boxShadow: `0 8px 32px var(--dropdown-shadow)`,
+                        }}
                         onMouseLeave={() => setIsThemeOpen(false)}
                       >
                         <div className="p-2">
-                          <div className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2 px-2">
+                          <div className="text-xs font-semibold uppercase tracking-wider mb-2 px-2" style={{ color: "var(--text-muted)" }}>
                             Appearance
                           </div>
                           {themeOptions.map((option, index) => (
@@ -620,11 +638,15 @@ export default function ModernHeader({ activeSection, setActiveSection }: Modern
                               whileHover={{ scale: 1.02, x: 4 }}
                               className={`flex items-center space-x-3 w-full px-3 py-2.5 text-xs lg:text-sm rounded-lg transition-all duration-200 border ${
                                 theme === option.id
-                                  ? "text-white bg-white/10 border-white/20"
-                                  : "text-gray-300 hover:text-white hover:bg-white/5 border-transparent hover:border-white/10"
+                                  ? "border-white/20"
+                                  : "border-transparent hover:border-white/10"
                               }`}
+                              style={{
+                                color: theme === option.id ? "var(--text-primary)" : "var(--text-secondary)",
+                                background: theme === option.id ? "var(--hover-bg)" : "transparent",
+                              }}
                             >
-                              <div className="flex items-center justify-center w-4 h-4">
+                              <div className="flex items-center justify-center w-4 h-4" style={{ color: "var(--text-secondary)" }}>
                                 {option.icon}
                               </div>
                               <span className="font-medium">{option.label}</span>
@@ -643,13 +665,19 @@ export default function ModernHeader({ activeSection, setActiveSection }: Modern
                 </div>
 
                 {/* More Dropdown */}
-                <div className="relative more-dropdown">                  <motion.button
+                <div className="relative more-dropdown">
+                  <motion.button
                     onClick={toggleMoreMenu}
                     aria-haspopup="menu"
                     aria-expanded={isMoreOpen}
                     whileHover={{ scale: 1.05, y: -1 }}
                     whileTap={{ scale: 0.95 }}
-                    className="px-2 py-1.5 lg:px-3 lg:py-2 text-xs lg:text-sm font-medium text-white bg-transparent border border-white/30 rounded-lg hover:bg-white/10 transition-all duration-300 flex items-center space-x-1 lg:space-x-2 shadow-lg hover:shadow-blue-500/10"
+                    className="px-2 py-1.5 lg:px-3 lg:py-2 text-xs lg:text-sm font-medium transition-all duration-300 flex items-center space-x-1 lg:space-x-2 shadow-lg hover:shadow-blue-500/10 rounded-lg border"
+                    style={{
+                      color: "var(--nav-active)",
+                      borderColor: "var(--header-border)",
+                      background: "transparent",
+                    }}
                   >
                     <span>More</span>
                     <motion.div
@@ -689,7 +717,7 @@ export default function ModernHeader({ activeSection, setActiveSection }: Modern
                         onMouseLeave={() => setIsMoreOpen(false)}
                       >
                         <div className="p-2 lg:p-3">
-                          <div className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2 px-2">
+                          <div className="text-xs font-semibold uppercase tracking-wider mb-2 px-2" style={{ color: "var(--text-muted)" }}>
                             More Pages
                           </div>
                           {moreItems.map((item, index) => (
@@ -702,11 +730,14 @@ export default function ModernHeader({ activeSection, setActiveSection }: Modern
                                 whileHover={{ scale: 1.02, x: 5 }}
                                 className={`flex items-center space-x-3 w-full px-2 py-2 lg:px-3 lg:py-3 text-xs lg:text-sm rounded-lg transition-all duration-200 border border-transparent hover:border-white/10 cursor-pointer ${
                                   activeSection === item.id
-                                    ? "text-white bg-white/10"
-                                    : "text-white hover:bg-white/5"
+                                    ? "bg-white/10"
+                                    : "hover:bg-white/5"
                                 }`}
+                                style={{
+                                  color: activeSection === item.id ? "var(--text-primary)" : "var(--text-secondary)",
+                                }}
                               >
-                                <div className="flex items-center justify-center w-4 h-4 lg:w-5 lg:h-5">
+                                <div className="flex items-center justify-center w-4 h-4 lg:w-5 lg:h-5" style={{ color: "var(--text-secondary)" }}>
                                   {item.icon}
                                 </div>
                                 <span className="font-medium">{item.label}</span>
@@ -733,10 +764,10 @@ export default function ModernHeader({ activeSection, setActiveSection }: Modern
                         onClick={() => { setActiveSection(item.id); scrollToSection(item.id); }}
                         whileHover={{ scale: 1.02, y: -1 }}
                         whileTap={{ scale: 0.98 }}
-                        className={`relative px-2 lg:px-3 py-[10px] text-xs lg:text-sm font-medium transition-all duration-300 flex items-center space-x-1 rounded-lg mx-0 ${
+                        className={`relative px-2 lg:px-3 py-2.5 text-xs lg:text-sm font-medium transition-all duration-300 flex items-center space-x-1 rounded-lg mx-0 ${
                           activeSection === item.id
-                            ? "text-[var(--nav-active)]"
-                            : "text-[var(--nav-inactive)] hover:text-[var(--nav-active)] hover:bg-[var(--nav-hover-bg)]"
+                            ? "text-(--nav-active)"
+                            : "text-(--nav-inactive) hover:text-(--nav-active) hover:bg-(--nav-hover-bg)"
                         }`}
                         aria-current={activeSection === item.id ? "page" : undefined}
                       >
@@ -745,7 +776,7 @@ export default function ModernHeader({ activeSection, setActiveSection }: Modern
                         {activeSection === item.id && (
                           <motion.div
                             layoutId="activeSection"
-                            className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-blue-400 to-purple-400 shadow-[0_0_6px_rgba(139,92,246,0.6)]"
+                            className="absolute bottom-0 left-0 right-0 h-0.5 bg-linear-to-r from-blue-400 to-purple-400 shadow-[0_0_6px_rgba(139,92,246,0.6)]"
                             transition={{
                               type: "spring",
                               bounce: 0.2,
@@ -767,15 +798,15 @@ export default function ModernHeader({ activeSection, setActiveSection }: Modern
               <nav aria-label="Main navigation" className="w-full">
                 <ul className="flex items-center space-x-1 py-2">
                   {navItems.map((item) => (
-                    <li key={item.id} className="flex-shrink-0">
+                    <li key={item.id} className="shrink-0">
                       <motion.button
                         onClick={() => { setActiveSection(item.id); scrollToSection(item.id); }}
                         whileHover={{ scale: 1.02, y: -1 }}
                         whileTap={{ scale: 0.98 }}
                         className={`relative px-2 py-2 text-xs font-medium transition-all duration-300 flex items-center space-x-1 rounded-lg ${
                           activeSection === item.id
-                            ? "text-[var(--nav-active)]"
-                            : "text-[var(--nav-inactive)] hover:text-[var(--nav-active)] hover:bg-[var(--nav-hover-bg)]"
+                            ? "text-(--nav-active)"
+                            : "text-(--nav-inactive) hover:text-(--nav-active) hover:bg-(--nav-hover-bg)"
                         }`}
                         aria-current={activeSection === item.id ? "page" : undefined}
                       >
@@ -784,7 +815,7 @@ export default function ModernHeader({ activeSection, setActiveSection }: Modern
                         {activeSection === item.id && (
                           <motion.div
                             layoutId="activeSectionTablet"
-                            className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-blue-400 to-purple-400 shadow-[0_0_6px_rgba(139,92,246,0.6)]"
+                            className="absolute bottom-0 left-0 right-0 h-0.5 bg-linear-to-r from-blue-400 to-purple-400 shadow-[0_0_6px_rgba(139,92,246,0.6)]"
                             transition={{
                               type: "spring",
                               bounce: 0.2,
@@ -807,7 +838,7 @@ export default function ModernHeader({ activeSection, setActiveSection }: Modern
             {/* Logo and Name */}
             <div className="flex items-center space-x-2">
               <div className="relative">
-                <div className="absolute -inset-1 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 opacity-20 blur-sm"></div>
+                <div className="absolute -inset-1 rounded-full bg-linear-to-r from-blue-500 to-purple-500 opacity-20 blur-sm"></div>
                 <div className="relative flex h-8 w-8 items-center justify-center rounded-full bg-[#0a0339] border border-white/20">
                   <Link href="/" className="flex items-center justify-center">
                     <Image
@@ -821,7 +852,7 @@ export default function ModernHeader({ activeSection, setActiveSection }: Modern
                 </div>
               </div>
               <div className="flex flex-col">
-                <span className="text-white font-bold text-sm tracking-tight bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
+                <span className="font-bold text-sm tracking-tight bg-linear-to-r from-white to-gray-300 bg-clip-text text-transparent">
                   Anmol Roy
                 </span>
               </div>
@@ -831,7 +862,8 @@ export default function ModernHeader({ activeSection, setActiveSection }: Modern
             <motion.button
               onClick={toggleMobileMenu}
               whileTap={{ scale: 0.95 }}
-              className="p-2 text-white hover:bg-white/10 rounded-lg transition-all duration-300"
+              className="p-2 rounded-lg transition-all duration-300"
+              style={{ color: "var(--nav-active)" }}
               aria-label="Toggle mobile menu"
             >
               <AnimatePresence mode="wait">
@@ -880,58 +912,6 @@ export default function ModernHeader({ activeSection, setActiveSection }: Modern
         </div>
       </motion.header>
 
-      {/* Half-Sticky Navigation Bar - Shows when not on overview and scrolled */}
-      {/* <AnimatePresence>
-        {isNotOverview && isScrolled && (
-          <motion.div
-            initial={{ y: -50, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            exit={{ y: -50, opacity: 0 }}
-            transition={{ 
-              duration: 0.3,
-              ease: "easeOut"
-            }}
-            className="fixed top-4 left-1/2 transform -translate-x-1/2 z-40 hidden lg:block"
-          >
-            <div className="bg-black/40 backdrop-blur-xl border border-white/20 rounded-2xl px-6 py-3 shadow-2xl shadow-blue-500/10">
-              <nav aria-label="Sticky navigation">
-                <ul className="flex items-center space-x-1">
-                  {navItems.map((item) => (
-                    <li key={item.id}>
-                      <motion.button
-                        onClick={() => setActiveSection(item.id)}
-                        whileHover={{ scale: 1.05, y: -1 }}
-                        whileTap={{ scale: 0.95 }}
-                        className={`relative px-4 py-2 text-sm font-medium transition-all duration-300 flex items-center space-x-2 rounded-lg ${
-                          activeSection === item.id
-                            ? "text-white bg-white/10"
-                            : "text-gray-300 hover:text-white hover:bg-white/5"
-                        }`}
-                        aria-current={activeSection === item.id ? "page" : undefined}
-                      >
-                        {item.icon}
-                        <span className="font-medium">{item.label}</span>
-                        {activeSection === item.id && (
-                          <motion.div
-                            layoutId="stickyActiveSection"
-                            className="absolute inset-0 border border-white/30 rounded-lg bg-white/5"
-                            transition={{
-                              type: "spring",
-                              bounce: 0.2,
-                              duration: 0.4,
-                            }}
-                          />
-                        )}
-                      </motion.button>
-                    </li>
-                  ))}
-                </ul>
-              </nav>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence> */}
-
       {/* Mobile Menu Overlay */}
       <AnimatePresence>
         {isMobileMenuOpen && (
@@ -952,7 +932,7 @@ export default function ModernHeader({ activeSection, setActiveSection }: Modern
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
               transition={{ type: "spring", damping: 25, stiffness: 200 }}
-              className="fixed top-[65px] right-0 bottom-0 w-[85%] max-w-sm border-l z-50 md:hidden overflow-y-auto transition-colors duration-300"
+              className="fixed top-[73px] right-0 bottom-0 w-[85%] max-w-sm border-l z-50 md:hidden overflow-y-auto transition-colors duration-300"
               style={{
                 background: `linear-gradient(to bottom, var(--header-bg-from), var(--dropdown-bg))`,
                 borderColor: "var(--header-border)",
@@ -961,7 +941,7 @@ export default function ModernHeader({ activeSection, setActiveSection }: Modern
               <div className="p-4 space-y-6">
                 {/* Navigation Items */}
                 <div>
-                  <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3 px-2">
+                  <h3 className="text-xs font-semibold uppercase tracking-wider mb-3 px-2" style={{ color: "var(--text-muted)" }}>
                     Navigation
                   </h3>
                   <nav>
@@ -975,13 +955,17 @@ export default function ModernHeader({ activeSection, setActiveSection }: Modern
                         >
                           <button
                             onClick={() => handleMobileNavClick(item.id)}
-                            className={`flex items-center space-x-3 w-full px-3 py-3 text-sm rounded-lg transition-all duration-200 ${
+                            className={`flex items-center space-x-3 w-full px-3 py-3 text-sm rounded-lg transition-all duration-200 border ${
                               activeSection === item.id
-                                ? "text-white bg-white/10 border border-white/20"
-                                : "text-gray-300 hover:text-white hover:bg-white/5"
+                                ? "border-white/20"
+                                : "border-transparent"
                             }`}
+                            style={{
+                              color: activeSection === item.id ? "var(--text-primary)" : "var(--text-secondary)",
+                              background: activeSection === item.id ? "var(--hover-bg)" : "transparent",
+                            }}
                           >
-                            <div className="flex items-center justify-center w-5 h-5">
+                            <div className="flex items-center justify-center w-5 h-5" style={{ color: "var(--text-secondary)" }}>
                               {item.icon}
                             </div>
                             <span className="font-medium">{item.label}</span>
@@ -994,7 +978,7 @@ export default function ModernHeader({ activeSection, setActiveSection }: Modern
 
                 {/* More Pages */}
                 <div>
-                  <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3 px-2">
+                  <h3 className="text-xs font-semibold uppercase tracking-wider mb-3 px-2" style={{ color: "var(--text-muted)" }}>
                     More Pages
                   </h3>
                   <div className="space-y-1">
@@ -1008,9 +992,10 @@ export default function ModernHeader({ activeSection, setActiveSection }: Modern
                         <Link href={item.href}>
                           <div
                             onClick={toggleMobileMenu}
-                            className="flex items-center space-x-3 w-full px-3 py-3 text-sm text-gray-300 hover:text-white hover:bg-white/5 rounded-lg transition-all duration-200"
+                            className="flex items-center space-x-3 w-full px-3 py-3 text-sm rounded-lg transition-all duration-200 hover:bg-white/5"
+                            style={{ color: "var(--text-secondary)" }}
                           >
-                            <div className="flex items-center justify-center w-5 h-5">
+                            <div className="flex items-center justify-center w-5 h-5" style={{ color: "var(--text-secondary)" }}>
                               {item.icon}
                             </div>
                             <span className="font-medium">{item.label}</span>
@@ -1023,7 +1008,7 @@ export default function ModernHeader({ activeSection, setActiveSection }: Modern
 
                 {/* Social Links */}
                 <div>
-                  <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3 px-2">
+                  <h3 className="text-xs font-semibold uppercase tracking-wider mb-3 px-2" style={{ color: "var(--text-muted)" }}>
                     Connect
                   </h3>
                   <div className="space-y-1">
@@ -1036,9 +1021,10 @@ export default function ModernHeader({ activeSection, setActiveSection }: Modern
                         initial={{ opacity: 0, x: 20 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ delay: (navItems.length + moreItems.length + index) * 0.05 }}
-                        className={`flex items-center space-x-3 w-full px-3 py-3 text-sm text-gray-300 hover:text-white rounded-lg transition-all duration-200 ${social.color}`}
+                        className={`flex items-center space-x-3 w-full px-3 py-3 text-sm rounded-lg transition-all duration-200 ${social.color}`}
+                        style={{ color: "var(--text-secondary)" }}
                       >
-                        <div className="flex items-center justify-center w-5 h-5">
+                        <div className="flex items-center justify-center w-5 h-5" style={{ color: "var(--text-secondary)" }}>
                           {social.icon}
                         </div>
                         <span className="font-medium">{social.name}</span>
@@ -1049,7 +1035,7 @@ export default function ModernHeader({ activeSection, setActiveSection }: Modern
 
                 {/* Theme Selector */}
                 <div>
-                  <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3 px-2">
+                  <h3 className="text-xs font-semibold uppercase tracking-wider mb-3 px-2" style={{ color: "var(--text-muted)" }}>
                     Appearance
                   </h3>
                   <div className="space-y-1">
@@ -1060,13 +1046,17 @@ export default function ModernHeader({ activeSection, setActiveSection }: Modern
                         initial={{ opacity: 0, x: 20 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ delay: (navItems.length + moreItems.length + socialLinks.length + index) * 0.05 }}
-                        className={`flex items-center space-x-3 w-full px-3 py-3 text-sm rounded-lg transition-all duration-200 ${
+                        className={`flex items-center space-x-3 w-full px-3 py-3 text-sm rounded-lg transition-all duration-200 border ${
                           theme === option.id
-                            ? "text-white bg-white/10 border border-white/20"
-                            : "text-gray-300 hover:text-white hover:bg-white/5"
+                            ? "border-white/20"
+                            : "border-transparent"
                         }`}
+                        style={{
+                          color: theme === option.id ? "var(--text-primary)" : "var(--text-secondary)",
+                          background: theme === option.id ? "var(--hover-bg)" : "transparent",
+                        }}
                       >
-                        <div className="flex items-center justify-center w-5 h-5">
+                        <div className="flex items-center justify-center w-5 h-5" style={{ color: "var(--text-secondary)" }}>
                           {option.icon}
                         </div>
                         <span className="font-medium">{option.label}</span>
@@ -1085,7 +1075,11 @@ export default function ModernHeader({ activeSection, setActiveSection }: Modern
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: (navItems.length + moreItems.length + socialLinks.length) * 0.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className="w-full px-4 py-3 text-sm font-medium text-white bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg hover:from-blue-600 hover:to-purple-600 transition-all duration-300 flex items-center justify-center space-x-2 shadow-lg"
+                  className="w-full px-4 py-3 text-sm font-medium rounded-lg transition-all duration-300 flex items-center justify-center space-x-2 shadow-lg"
+                  style={{
+                    color: "white",
+                    background: "linear-gradient(to right, #6366f1, #8b5cf6)",
+                  }}
                 >
                   <span>Download Resume</span>
                   <svg

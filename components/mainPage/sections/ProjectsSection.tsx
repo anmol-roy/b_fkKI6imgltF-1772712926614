@@ -197,8 +197,12 @@ function GlowBorderCard({ children, accent, className, onMouseEnter, onMouseLeav
   const { ref, grad, opacity, onMouseMove, onMouseLeave } = useDirectionalBorder(accent);
   return (
     <div ref={ref}
-      className={`relative overflow-hidden rounded-2xl bg-white/[0.03] backdrop-blur-sm ${className ?? ""}`}
-      style={{ border: "1px solid rgba(255,255,255,0.07)" }}
+      className={`relative overflow-hidden rounded-2xl backdrop-blur-sm ${className ?? ""}`}
+      style={{ 
+        border: "1px solid var(--card-border)", 
+        background: "var(--card-surface, rgba(255,255,255,0.7))",
+        boxShadow: "0 2px 8px -4px var(--shadow-color, rgba(0,0,0,0.06))"
+      }}
       onMouseMove={onMouseMove} onMouseEnter={onMouseEnter}
       onMouseLeave={() => { onMouseLeave(); ext?.(); }}>
       <span aria-hidden style={{
@@ -248,7 +252,7 @@ function FeaturedCard({ project }: { project: Project }) {
                     style={{ fontSize:"11.7px", color:sc.color, borderColor:sc.border, background:sc.bg }}>
                     {project.status}
                   </span>
-                  <span className="font-mono" style={{ fontSize:"11.7px", color:"rgba(255,255,255,0.22)" }}>{project.year}</span>
+                  <span className="font-mono" style={{ fontSize:"11.7px", color:"var(--text-faint)" }}>{project.year}</span>
                 </div>
                 <span className="ml-auto font-mono rounded-md px-2 py-0.5 tracking-widest uppercase"
                   style={{ fontSize:"10.4px", color:`${project.accent}90`, background:`${project.accent}0d`, border:`1px solid ${project.accent}1f` }}>
@@ -256,13 +260,13 @@ function FeaturedCard({ project }: { project: Project }) {
                 </span>
               </div>
 
-              <h3 className="font-syne font-bold tracking-tight text-white mb-1.5"
-                style={{ fontSize:"clamp(1.5rem,3vw,2.1rem)" }}>{project.title}</h3>
+              <h3 className="font-syne font-bold tracking-tight mb-1.5"
+                style={{ fontSize:"clamp(1.5rem,3vw,2.1rem)", color:"var(--text-primary)" }}>{project.title}</h3>
 
               <p className="font-dm mb-4" style={{ fontSize:"15.6px", color:`${project.accent}b3` }}>{project.tagline}</p>
 
               <p className="font-dm mb-6 leading-[1.88] max-w-sm"
-                style={{ fontSize:"14.3px", color:"rgba(255,255,255,0.42)" }}>{project.description}</p>
+                style={{ fontSize:"14.3px", color:"var(--text-tertiary)" }}>{project.description}</p>
 
               <div className="mb-8 flex flex-wrap gap-1.5">
                 {project.tags.map((tag,i) => <TagPill key={tag} tag={tag} color={project.tagColors[i%project.tagColors.length]} />)}
@@ -272,8 +276,8 @@ function FeaturedCard({ project }: { project: Project }) {
             <div className="flex items-center gap-3">
               {project.liveUrl && (
                 <a href={project.liveUrl} target="_blank" rel="noopener noreferrer"
-                  className="font-dm group flex items-center gap-1.5 rounded-lg px-4 py-2 font-medium text-white transition-all duration-300"
-                  style={{ fontSize:"14.3px", background:`${project.accent}18`, border:`1px solid ${project.accent}30` }}
+                  className="font-dm group flex items-center gap-1.5 rounded-lg px-4 py-2 font-medium transition-all duration-300"
+                  style={{ fontSize:"14.3px", color:"var(--text-primary)", background:`${project.accent}18`, border:`1px solid ${project.accent}30` }}
                   onMouseEnter={(e)=>(e.currentTarget.style.background=`${project.accent}2e`)}
                   onMouseLeave={(e)=>(e.currentTarget.style.background=`${project.accent}18`)}>
                   <ExternalLink className="h-3.5 w-3.5" style={{ color:project.accent }}/>
@@ -282,10 +286,10 @@ function FeaturedCard({ project }: { project: Project }) {
               )}
               {project.githubUrl && (
                 <a href={project.githubUrl} target="_blank" rel="noopener noreferrer"
-                  className="font-dm flex items-center gap-1.5 rounded-lg border border-white/[0.08] px-4 py-2 font-medium transition-all duration-300"
-                  style={{ fontSize:"14.3px", color:"rgba(255,255,255,0.42)" }}
-                  onMouseEnter={(e)=>(e.currentTarget.style.color="rgba(255,255,255,0.78)")}
-                  onMouseLeave={(e)=>(e.currentTarget.style.color="rgba(255,255,255,0.42)")}>
+                  className="font-dm flex items-center gap-1.5 rounded-lg px-4 py-2 font-medium transition-all duration-300"
+                  style={{ fontSize:"14.3px", color:"var(--text-muted)", border:"1px solid var(--card-border)" }}
+                  onMouseEnter={(e)=>(e.currentTarget.style.color="var(--text-primary)")}
+                  onMouseLeave={(e)=>(e.currentTarget.style.color="var(--text-muted)")}>
                   <Github className="h-3.5 w-3.5"/>
                   Source
                 </a>
@@ -294,9 +298,9 @@ function FeaturedCard({ project }: { project: Project }) {
           </div>
 
           {/* Right — metrics */}
-          <div className="flex flex-col justify-center border-t lg:border-t-0 lg:border-l border-white/[0.05] p-8 lg:p-10">
+          <div className="flex flex-col justify-center border-t lg:border-t-0 lg:border-l p-8 lg:p-10" style={{ borderColor: "var(--divider)" }}>
             <p className="font-mono mb-6 tracking-[0.25em] uppercase"
-              style={{ fontSize:"11.7px", color:"rgba(255,255,255,0.2)" }}>Impact metrics</p>
+              style={{ fontSize:"11.7px", color:"var(--text-faint)" }}>Impact metrics</p>
             <div className="flex flex-col gap-6">
               {project.metrics?.map((m,i) => (
                 <motion.div key={m.label}
@@ -354,10 +358,10 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
               )}
               {project.githubUrl && (
                 <a href={project.githubUrl} target="_blank" rel="noopener noreferrer"
-                  className="flex h-7 w-7 items-center justify-center rounded-lg border border-white/[0.08] bg-white/[0.04] transition-colors"
-                  style={{ color:"rgba(255,255,255,0.35)" }}
-                  onMouseEnter={(e)=>(e.currentTarget.style.color="rgba(255,255,255,0.82)")}
-                  onMouseLeave={(e)=>(e.currentTarget.style.color="rgba(255,255,255,0.35)")}
+                  className="flex h-7 w-7 items-center justify-center rounded-lg transition-colors"
+                  style={{ color:`${project.accent}80`, border:"1px solid var(--card-border)", background:"var(--card-surface)" }}
+                  onMouseEnter={(e)=>(e.currentTarget.style.color=project.accent)}
+                  onMouseLeave={(e)=>(e.currentTarget.style.color=`${project.accent}80`)}
                   onClick={(e)=>e.stopPropagation()}>
                   <Github className="h-3 w-3"/>
                 </a>
@@ -367,7 +371,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
 
           {/* Title + badge */}
           <div className="mb-1.5 flex items-center gap-2 flex-wrap">
-            <h3 className="font-syne font-bold tracking-tight text-white" style={{ fontSize:"17.55px" }}>{project.title}</h3>
+            <h3 className="font-syne font-bold tracking-tight" style={{ fontSize:"17.55px", color:"var(--text-primary)" }}>{project.title}</h3>
             <span className="font-mono rounded border px-1.5 py-px font-medium"
               style={{ fontSize:"10.4px", color:sc.color, borderColor:sc.border, background:sc.bg }}>
               {project.status}
@@ -375,14 +379,14 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
           </div>
 
           <p className="font-dm mb-3" style={{ fontSize:"14.3px", color:`${project.accent}99` }}>{project.tagline}</p>
-          <p className="font-dm mb-5 leading-[1.78]" style={{ fontSize:"14.3px", color:"rgba(255,255,255,0.38)" }}>{project.description}</p>
+          <p className="font-dm mb-5 leading-[1.78]" style={{ fontSize:"14.3px", color:"var(--text-tertiary)" }}>{project.description}</p>
 
           <div className="flex flex-wrap gap-1.5">
             {project.tags.slice(0,3).map((tag,i) => (
               <TagPill key={tag} tag={tag} color={project.tagColors[i%project.tagColors.length]}/>
             ))}
             {project.tags.length>3 && (
-              <span className="font-mono px-2 py-0.5" style={{ fontSize:"11.7px", color:"rgba(255,255,255,0.22)" }}>
+              <span className="font-mono px-2 py-0.5" style={{ fontSize:"11.7px", color:"var(--text-faint)" }}>
                 +{project.tags.length-3}
               </span>
             )}
@@ -400,7 +404,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
           </div>
         )}
 
-        <span className="font-mono absolute bottom-5 right-5" style={{ fontSize:"11.7px", color:"rgba(255,255,255,0.15)" }}>{project.year}</span>
+        <span className="font-mono absolute bottom-5 right-5" style={{ fontSize:"11.7px", color:"var(--text-faint)" }}>{project.year}</span>
       </GlowBorderCard>
     </motion.div>
   );
@@ -429,14 +433,14 @@ export default function ProjectsSection() {
         {/* Section label */}
         <motion.div {...fadeUp(0)} className="mb-12 flex items-center justify-between">
           <div className="flex items-center gap-4">
-            <span className="font-mono tracking-[0.3em] uppercase" style={{ fontSize:"13px", color:"rgba(147,197,253,0.5)" }}>03 —</span>
-            <span className="font-syne tracking-[0.2em] uppercase" style={{ fontSize:"13px", color:"rgba(255,255,255,0.3)" }}>Projects</span>
-            <span className="h-px w-[60px] bg-white/[0.08]"/>
+            <span className="font-mono tracking-[0.3em] uppercase" style={{ fontSize:"13px", color:"var(--section-num)" }}>03 —</span>
+            <span className="font-syne tracking-[0.2em] uppercase" style={{ fontSize:"13px", color:"var(--section-label)" }}>Projects</span>
+            <span className="h-px w-[60px]" style={{ background:"var(--divider)" }}/>
           </div>
           <a href="#" className="group font-dm flex items-center gap-1.5 transition-colors"
-            style={{ fontSize:"14.3px", color:"rgba(255,255,255,0.3)" }}
-            onMouseEnter={(e)=>(e.currentTarget.style.color="rgba(147,197,253,0.85)")}
-            onMouseLeave={(e)=>(e.currentTarget.style.color="rgba(255,255,255,0.3)")}>
+            style={{ fontSize:"14.3px", color:"var(--text-muted)" }}
+            onMouseEnter={(e)=>(e.currentTarget.style.color="rgba(147,197,253,0.9)")}
+            onMouseLeave={(e)=>(e.currentTarget.style.color="var(--text-muted)")}>
             All work
             <ChevronRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5"/>
           </a>
@@ -444,8 +448,7 @@ export default function ProjectsSection() {
 
         {/* Title */}
         <motion.div {...fadeUp(0.05)} className="mb-10">
-          <h2 className="font-syne font-bold tracking-tight text-white leading-[1.08]"
-            style={{ fontSize:"clamp(2rem,5vw,4rem)" }}>
+          <h2 className="font-syne font-bold tracking-tight leading-[1.08]" style={{ fontSize:"clamp(2rem,5vw,4rem)", color:"var(--text-primary)" }}>
             Things I&apos;ve{" "}
             <span className="bg-clip-text text-transparent"
               style={{ backgroundImage:"linear-gradient(120deg,#93c5fd 0%,#c4b5fd 45%,#f472b6 100%)", backgroundSize:"200% auto", animation:"shimmer 6s linear infinite" }}>
@@ -461,9 +464,9 @@ export default function ProjectsSection() {
               className="font-mono rounded-lg border transition-all duration-250"
               style={{
                 fontSize:"13px", padding:"6.5px 18.2px",
-                borderColor: activeCategory===cat ? "rgba(147,197,253,0.38)" : "rgba(255,255,255,0.08)",
-                background:   activeCategory===cat ? "rgba(147,197,253,0.1)"  : "rgba(255,255,255,0.02)",
-                color:        activeCategory===cat ? "#93c5fd"                : "rgba(255,255,255,0.38)",
+                borderColor: activeCategory===cat ? "rgba(147,197,253,0.45)" : "var(--card-border)",
+                background:   activeCategory===cat ? "rgba(147,197,253,0.12)" : "var(--card-surface)",
+                color:        activeCategory===cat ? "#93c5fd"                : "var(--text-muted)",
               }}>
               {cat}
             </button>
@@ -492,12 +495,12 @@ export default function ProjectsSection() {
 
         {/* CTA */}
         <motion.div {...fadeUp(0.3)} className="mt-14 flex flex-col items-center gap-3 text-center">
-          <p className="font-dm" style={{ fontSize:"15.6px", color:"rgba(255,255,255,0.3)" }}>More projects on GitHub</p>
+          <p className="font-dm" style={{ fontSize:"15.6px", color:"var(--text-muted)" }}>More projects on GitHub</p>
           <a href="https://github.com/anmol-roy" target="_blank" rel="noopener noreferrer"
-            className="group font-mono inline-flex items-center gap-2 rounded-xl border transition-all duration-300"
-            style={{ fontSize:"15.6px", padding:"11.7px 26px", border:"1px solid rgba(255,255,255,0.09)", background:"rgba(255,255,255,0.03)", color:"rgba(255,255,255,0.45)" }}
-            onMouseEnter={(e)=>{ e.currentTarget.style.borderColor="rgba(147,197,253,0.32)"; e.currentTarget.style.color="#93c5fd"; }}
-            onMouseLeave={(e)=>{ e.currentTarget.style.borderColor="rgba(255,255,255,0.09)"; e.currentTarget.style.color="rgba(255,255,255,0.45)"; }}>
+            className="group font-mono inline-flex items-center gap-2 rounded-xl transition-all duration-300"
+            style={{ fontSize:"15.6px", padding:"11.7px 26px", border:"1px solid var(--card-border)", background:"var(--card-surface)", color:"var(--text-muted)" }}
+            onMouseEnter={(e)=>{ e.currentTarget.style.borderColor="rgba(147,197,253,0.35)"; e.currentTarget.style.color="#93c5fd"; }}
+            onMouseLeave={(e)=>{ e.currentTarget.style.borderColor="var(--card-border)"; e.currentTarget.style.color="var(--text-muted)"; }}>
             <Github className="h-4 w-4"/>
             github.com/anmol-roy
             <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"/>

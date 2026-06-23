@@ -13,14 +13,13 @@ const LINKS = {
     { label: "Contact",      href: "#contact" },
   ],
   social: [
-    { icon: Github,   label: "GitHub",   href: "https://github.com/anmol-roy",               color: "#a3a3a3" },
-    { icon: Linkedin, label: "LinkedIn", href: "https://linkedin.com/in/anmol-kumar-roy",     color: "#60a5fa" },
-    { icon: Twitter,  label: "Twitter",  href: "https://twitter.com/anmolroy_dev",            color: "#67e8f9" },
-    { icon: Mail,     label: "Email",    href: "mailto:anmol@example.com",                   color: "#c4b5fd" },
+    { icon: Github,   label: "GitHub",   href: "https://github.com/anmol-roy",            color: "#64748b" },
+    { icon: Linkedin, label: "LinkedIn", href: "https://linkedin.com/in/anmol-kumar-roy",  color: "#60a5fa" },
+    { icon: Twitter,  label: "Twitter",  href: "https://twitter.com/anmolroy_dev",         color: "#67e8f9" },
+    { icon: Mail,     label: "Email",    href: "mailto:anmol@example.com",                color: "#c4b5fd" },
   ],
 };
 
-// Animated big name that shifts parallax on scroll
 function BigName() {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
@@ -28,28 +27,32 @@ function BigName() {
   const opacity = useTransform(scrollYProgress, [0, 0.3, 0.8], [0, 1, 1]);
 
   return (
-    <div ref={ref} className="mb-0 verflow-hidden pointer-events-none">
-  <motion.h2
-    className="select-none whitespace-nowrap font-bold tracking-tighter leading-none"
-    style={{
-      fontSize: "clamp(52px, 12vw, 140px)",
-      color: "transparent",
-      WebkitTextStroke: "1px #87CEEB", // blue border
-      x,
-      opacity,
-    }}
-  >
-    Anmol Roy
-  </motion.h2>
-</div>
+    <div ref={ref} className="mb-0 overflow-hidden pointer-events-none">
+      <motion.h2
+        className="select-none whitespace-nowrap font-bold tracking-tighter leading-none"
+        style={{
+          fontSize: "clamp(52px, 12vw, 140px)",
+          color: "transparent",
+          WebkitTextStroke: "1px var(--text-faint)",
+          x,
+          opacity,
+        }}
+      >
+        Anmol Roy
+      </motion.h2>
+    </div>
   );
 }
 
-// Floating availability orb
 function AvailabilityOrb() {
   return (
     <motion.div
-      className="inline-flex items-center gap-2 rounded-full border border-white/[0.08] bg-white/[0.03] px-4 py-2 backdrop-blur-sm"
+      className="inline-flex items-center gap-2 rounded-full px-4 py-2 backdrop-blur-sm"
+      style={{ 
+        border: "1px solid var(--card-border)", 
+        background: "var(--card-surface)",
+        boxShadow: "0 2px 8px -4px var(--shadow-color, rgba(0,0,0,0.06))"
+      }}
       initial={{ opacity: 0, y: 10 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
@@ -60,12 +63,11 @@ function AvailabilityOrb() {
         <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-60" />
         <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-emerald-400" />
       </span>
-      <span className="text-[11px] text-emerald-400/80 tracking-wide">Open to opportunities</span>
+      <span className="text-[11px] tracking-wide" style={{ color: "rgba(52,211,153,0.85)" }}>Open to opportunities</span>
     </motion.div>
   );
 }
 
-// Back to top button
 function BackToTop() {
   const [visible, setVisible] = useState(false);
 
@@ -85,7 +87,13 @@ function BackToTop() {
           whileHover={{ y: -3 }}
           whileTap={{ scale: 0.92 }}
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-          className="flex h-9 w-9 items-center justify-center rounded-xl border border-white/[0.08] bg-white/[0.04] text-white/40 hover:text-white/80 hover:border-white/[0.15] transition-colors duration-200 backdrop-blur-sm"
+          className="flex h-9 w-9 items-center justify-center rounded-xl backdrop-blur-sm transition-colors duration-200"
+          style={{ 
+            border: "1px solid var(--card-border)", 
+            background: "var(--card-surface)", 
+            color: "var(--text-muted)",
+            boxShadow: "0 2px 8px -4px var(--shadow-color, rgba(0,0,0,0.06))"
+          }}
         >
           <ArrowUp className="h-4 w-4" />
         </motion.button>
@@ -94,7 +102,6 @@ function BackToTop() {
   );
 }
 
-// Animated letter reveal for the tagline
 function AnimatedTagline() {
   const words = ["AI Engineer.", "Mobile Dev.", "Web Builder.", "Problem Solver."];
   const [index, setIndex] = useState(0);
@@ -106,7 +113,7 @@ function AnimatedTagline() {
 
   return (
     <div className="flex items-center gap-2 h-5 overflow-hidden">
-      <span className="text-sm text-white/30">I&apos;m an</span>
+      <span className="text-sm" style={{ color: "var(--text-muted)" }}>I&apos;m an</span>
       <AnimatePresence mode="wait">
         <motion.span
           key={index}
@@ -132,18 +139,9 @@ export default function FooterSection() {
   const year = new Date().getFullYear();
 
   return (
-    <footer
-      className="relative px-6 sm:px-10 lg:px-16 pt-16 pb-8 overflow-hidden"
-      style={{ background: "transparent" }}
-    >
+    <footer className="relative px-6 sm:px-10 lg:px-16 pt-16 pb-8 overflow-hidden" style={{ background: "transparent" }}>
       {/* Top divider */}
-      <div
-        className="mb-12 h-px w-full"
-        style={{
-          background:
-            "linear-gradient(90deg, transparent, rgba(255,255,255,0.08) 30%, rgba(255,255,255,0.08) 70%, transparent)",
-        }}
-      />
+      <div className="mb-12 h-px w-full" style={{ background: "linear-gradient(90deg, transparent, var(--divider) 30%, var(--divider) 70%, transparent)" }} />
 
       <div className="container mx-auto max-w-6xl">
 
@@ -165,7 +163,7 @@ export default function FooterSection() {
           >
             <AvailabilityOrb />
             <AnimatedTagline />
-            <p className="text-s text-white/25 leading-relaxed max-w-xs">
+            <p className="text-s leading-relaxed max-w-xs" style={{ color: "var(--text-muted)" }}>
               Building intelligent systems and crafting the interfaces people
               use to interact with them. Based in India, working worldwide.
             </p>
@@ -178,7 +176,7 @@ export default function FooterSection() {
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.08 }}
           >
-            <p className="mb-4 text-[16px] tracking-[0.25em] text-white uppercase">Navigate</p>
+            <p className="mb-4 text-[12px] tracking-[0.25em] uppercase font-semibold" style={{ color: "var(--text-secondary)" }}>Navigate</p>
             <ul className="flex flex-col gap-2.5">
               {LINKS.nav.map((link, i) => (
                 <motion.li
@@ -190,13 +188,15 @@ export default function FooterSection() {
                 >
                   <a
                     href={link.href}
-                    className="group flex items-center gap-2 text-xs text-white/60 hover:text-white/90 transition-colors duration-200"
+                    className="group flex items-center gap-2 text-xs transition-colors duration-200"
+                    style={{ color: "var(--text-muted)" }}
+                    onMouseEnter={(e) => (e.currentTarget.style.color = "var(--text-primary)")}
+                    onMouseLeave={(e) => (e.currentTarget.style.color = "var(--text-muted)")}
                   >
                     <motion.span
-                      className="h-px bg-white/20 group-hover:bg-white/60 transition-all duration-200"
-                      initial={{ width: 0 }}
+                      className="h-px transition-all duration-200"
+                      style={{ background: "var(--divider)", width: 0 }}
                       whileHover={{ width: 12 }}
-                      style={{ width: 0 }}
                     />
                     {link.label}
                   </a>
@@ -212,7 +212,7 @@ export default function FooterSection() {
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.14 }}
           >
-            <p className="mb-4 text-[16px] tracking-[0.25em] text-white/80 uppercase">Connect</p>
+            <p className="mb-4 text-[12px] tracking-[0.25em] uppercase font-semibold" style={{ color: "var(--text-secondary)" }}>Connect</p>
             <ul className="flex flex-col gap-2.5">
               {LINKS.social.map(({ icon: Icon, label, href, color }, i) => (
                 <motion.li
@@ -226,13 +226,11 @@ export default function FooterSection() {
                     href={href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="group flex items-center gap-2.5 text-xs text-white/0 transition-colors duration-200"
+                    className="group flex items-center gap-2.5 text-xs transition-colors duration-200"
+                    style={{ color: "var(--text-muted)" }}
                     whileHover={{ x: 3, color }}
-                    style={{ color: "rgba(255,255,255,0.3)" }}
                   >
-                    <Icon
-                      className="h-4.5 w-4.5 shrink-0 transition-colors duration-200"
-                    />
+                    <Icon className="h-3.5 w-3.5 shrink-0 transition-colors duration-200" style={{ color: "var(--text-muted)" }} />
                     {label}
                   </motion.a>
                 </motion.li>
@@ -242,19 +240,14 @@ export default function FooterSection() {
         </div>
 
         {/* Bottom bar */}
-        <div
-          className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-5 border-t border-white/[0.05]"
-        >
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-5" style={{ borderTop: "1px solid var(--divider)" }}>
           <motion.p
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
             transition={{ delay: 0.2 }}
-            className="text-[16px] text-[#bfd0ff56] flex items-center gap-1.5"
-            style={{
-              WebkitTextStroke: "0.5px rgba(255,255,255,0.1)",
-              textShadow: "0 0 2px rgba(255,255,0,0.05)"
-            }}
+            className="text-[13px] flex items-center gap-1.5"
+            style={{ color: "var(--text-muted)" }}
           >
             © {year} Anmol Roy &nbsp;·&nbsp; Made with
             <motion.span
@@ -262,7 +255,7 @@ export default function FooterSection() {
               transition={{ duration: 1.2, repeat: Infinity, ease: "easeInOut" }}
               className="inline-flex"
             >
-              <Heart className="h-3 w-3 text-rose-400/50 fill-rose-400/50" />
+              <Heart className="h-3 w-3 text-rose-400/60 fill-rose-400/60" />
             </motion.span>
             in India
           </motion.p>
@@ -273,7 +266,8 @@ export default function FooterSection() {
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
               transition={{ delay: 0.25 }}
-              className="text-[15px] text-white/65"
+              className="text-[13px]"
+              style={{ color: "var(--text-muted)" }}
             >
               Built with Next.js &amp; Tailwind CSS
             </motion.p>

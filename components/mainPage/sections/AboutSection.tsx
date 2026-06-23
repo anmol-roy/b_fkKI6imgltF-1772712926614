@@ -2,7 +2,7 @@
 import { motion } from "framer-motion";
 import { useRef, useState } from "react";
 import {
-  MapPin, Dumbbell , Code2, Zap, BookOpen, Music,
+  MapPin, Dumbbell, Code2, Zap, BookOpen, Music,
   Globe, Terminal, Cpu, Layers, Heart, Sparkles
 } from "lucide-react";
 
@@ -14,7 +14,7 @@ const fadeUp = (delay = 0) => ({
 });
 
 const cardBase =
-  "relative overflow-hidden rounded-2xl border border-white/[0.07] bg-white/[0.03] backdrop-blur-sm transition-shadow duration-300";
+  "relative overflow-hidden rounded-2xl backdrop-blur-sm transition-shadow duration-300";
 
 const techStack = [
   { name: "Python",     color: "#3b82f6" },
@@ -33,12 +33,12 @@ const techStack = [
 
 // Interests with individual accent colors
 const interests = [
-  { icon: Code2,    label: "Open Source", color: "#60a5fa", bg: "rgba(96,165,250,0.1)",   border: "rgba(96,165,250,0.2)"   },
-  { icon: Cpu,      label: "AI Research", color: "#c084fc", bg: "rgba(192,132,252,0.1)",  border: "rgba(192,132,252,0.2)"  },
-  { icon: Globe,    label: "Web Perf",    color: "#34d399", bg: "rgba(52,211,153,0.1)",   border: "rgba(52,211,153,0.2)"   },
-  { icon: BookOpen, label: "Reading",     color: "#fbbf24", bg: "rgba(251,191,36,0.1)",   border: "rgba(251,191,36,0.2)"   },
-  { icon: Music,    label: "Music",       color: "#f472b6", bg: "rgba(244,114,182,0.1)",  border: "rgba(244,114,182,0.2)"  },
-  { icon: Dumbbell ,   label: "workout",      color: "#fb923c", bg: "rgba(251,146,60,0.1)",   border: "rgba(251,146,60,0.2)"   },
+  { icon: Code2,    label: "Open Source", color: "#60a5fa", bg: "rgba(96,165,250,0.08)",   border: "rgba(96,165,250,0.12)"   },
+  { icon: Cpu,      label: "AI Research", color: "#c084fc", bg: "rgba(192,132,252,0.08)",  border: "rgba(192,132,252,0.12)"  },
+  { icon: Globe,    label: "Web Perf",    color: "#34d399", bg: "rgba(52,211,153,0.08)",   border: "rgba(52,211,153,0.12)"   },
+  { icon: BookOpen, label: "Reading",     color: "#fbbf24", bg: "rgba(251,191,36,0.08)",   border: "rgba(251,191,36,0.12)"   },
+  { icon: Music,    label: "Music",       color: "#f472b6", bg: "rgba(244,114,182,0.08)",  border: "rgba(244,114,182,0.12)"  },
+  { icon: Dumbbell, label: "Workout",     color: "#fb923c", bg: "rgba(251,146,60,0.08)",   border: "rgba(251,146,60,0.12)"   },
 ];
 
 // Stats with accent colors
@@ -71,10 +71,12 @@ function GlowCard({ children, className, gradientIndex, style }: {
       className={`${cardBase} ${className ?? ""}`}
       style={{
         ...style,
+        background: "var(--card-surface, rgba(255,255,255,0.7))",
+        border: "1px solid var(--card-border, rgba(99,102,241,0.12))",
         boxShadow: hovered
-          ? `0 0 0 1px rgba(255,255,255,0.13), inset 0 0 0 1px rgba(255,255,255,0.04), 0 8px 32px -8px rgba(0,0,0,0.4)`
-          : `0 0 0 1px transparent`,
-        transition: "box-shadow 0.35s ease",
+          ? `0 0 0 1px rgba(129,140,248,0.2), 0 8px 32px -8px var(--shadow-color, rgba(0,0,0,0.1))`
+          : `0 0 0 1px transparent, 0 2px 8px -4px var(--shadow-color, rgba(0,0,0,0.06))`,
+        transition: "box-shadow 0.35s ease, background 0.3s ease",
       }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
@@ -103,8 +105,8 @@ function StackTicker() {
   return (
     <div className="relative overflow-hidden">
       {/* Fade gradients on left and right */}
-      <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-black/50 to-transparent z-10 pointer-events-none" />
-      <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-black/50 to-transparent z-10 pointer-events-none" />
+      <div className="absolute left-0 top-0 bottom-0 w-8 z-10 pointer-events-none" style={{ background: "linear-gradient(to right, var(--ticker-fade), transparent)" }} />
+      <div className="absolute right-0 top-0 bottom-0 w-8 z-10 pointer-events-none" style={{ background: "linear-gradient(to left, var(--ticker-fade), transparent)" }} />
       
       <div className="flex gap-2 whitespace-nowrap" style={{ animation: "ticker 30s linear infinite" }}>
         {doubled.map((tech, i) => (
@@ -146,8 +148,7 @@ function SkillBar({ label, pct, color, delay }: { label: string; pct: number; co
 
 // Section label style
 const SectionLabel = ({ children }: { children: React.ReactNode }) => (
-  <span className="font-mono text-[14px] tracking-[0.28em] uppercase"
-    style={{ color: "rgba(255,255,225,0.5)" }}>{children}</span>
+  <span className="font-mono text-[14px] tracking-[0.28em] uppercase" style={{ color: "var(--section-label)" }}>{children}</span>
 );
 
 export default function AboutSection() {
@@ -170,10 +171,9 @@ export default function AboutSection() {
 
         {/* Section label */}
         <motion.div {...fadeUp(0)} className="mb-12 flex items-center gap-4">
-          <span className="font-mono text-[11px] tracking-[0.3em] uppercase"
-            style={{ color: "rgba(96,165,250,0.5)" }}>02 —</span>
-          <span className="font-syne text-[11px] tracking-[0.25em] uppercase text-white/30">About</span>
-          <span className="h-px flex-1 max-w-[60px] bg-white/[0.08]" />
+          <span className="font-mono text-[11px] tracking-[0.3em] uppercase" style={{ color: "var(--section-num)" }}>02 —</span>
+          <span className="font-syne text-[11px] tracking-[0.25em] uppercase" style={{ color: "var(--section-label)" }}>About</span>
+          <span className="h-px flex-1 max-w-[60px]" style={{ background: "var(--divider)" }} />
         </motion.div>
 
         {/* ── BENTO GRID ── */}
@@ -185,26 +185,26 @@ export default function AboutSection() {
               <div>
                 <div className="mb-5"><SectionLabel>Who I am</SectionLabel></div>
                 <h2 className="font-syne mb-4 text-2xl sm:text-5xl font-bold leading-[1.2] tracking-tight">
-                  <span className="text-white">I build things</span><br />
+                  <span style={{ color: "var(--text-primary)" }}>I build things</span><br />
                   <span className="bg-clip-text text-transparent"
                     style={{ backgroundImage: "linear-gradient(110deg, #60a5fa, #c084fc)" }}>
                     that think.
                   </span>
                 </h2>
-                <p className="font-dm text-m leading-[1.9] mb-4" style={{ color: "rgba(147,197,253,0.55)" }}>
+                <p className="font-dm text-m leading-[1.9] mb-4" style={{ color: "var(--text-secondary)" }}>
                   I&apos;m an AI &amp; ML developer from India, focused on
                   building intelligent systems — from training models to shipping
                   the products people use to interact with them.
                 </p>
-                <p className="font-dm text-sm leading-[1.9]" style={{ color: "rgba(255,255,255,0.28)" }}>
+                <p className="font-dm text-sm leading-[1.9]" style={{ color: "var(--text-muted)" }}>
                   I care about the full stack: clean architecture, fast
                   interfaces, and models that actually work in production.
                   Not just demos.
                 </p>
               </div>
               <div className="flex items-center gap-2 mt-6">
-                <MapPin className="h-3.5 w-3.5" style={{ color: "rgba(96,165,250,0.5)" }} />
-                <span className="font-mono text-[15px]" style={{ color: "rgba(255,255,255,0.28)" }}>
+                <MapPin className="h-3.5 w-3.5" style={{ color: "var(--text-muted)" }} />
+                <span className="font-mono text-[15px]" style={{ color: "var(--text-muted)" }}>
                   India &nbsp;·&nbsp; Available remote
                 </span>
               </div>
@@ -226,11 +226,11 @@ export default function AboutSection() {
                     onMouseEnter={() => setHoveredStat(i)}
                     onMouseLeave={() => setHoveredStat(null)}>
                     <span className="font-syne text-3xl font-bold tracking-tight transition-all duration-300"
-                      style={{ color: hoveredStat === i ? s.color : "rgba(255,255,255,0.8)" }}>
+                      style={{ color: hoveredStat === i ? s.color : "var(--text-primary)" }}>
                       {s.value}
                     </span>
                     <span className="font-dm text-[11px] leading-tight transition-colors duration-300"
-                      style={{ color: hoveredStat === i ? `${s.color}80` : "rgba(255,255,255,0.28)" }}>
+                      style={{ color: hoveredStat === i ? `${s.color}80` : "var(--text-muted)" }}>
                       {s.label}
                     </span>
                   </div>
@@ -263,8 +263,8 @@ export default function AboutSection() {
                 </div>
               </div>
               <div className="mt-4 rounded-lg px-3 py-2.5 text-center"
-                style={{ background: "rgba(147,197,253,0.06)", border: "1px solid rgba(147,197,253,0.12)" }}>
-                <span className="font-mono text-[10px]" style={{ color: "rgba(147,197,253,0.55)" }}>GMT +5:30 · IST</span>
+                style={{ background: "rgba(147,197,253,0.08)", border: "1px solid rgba(147,197,253,0.18)" }}>
+                <span className="font-mono text-[10px]" style={{ color: "rgba(147,197,253,0.7)" }}>GMT +5:30 · IST</span>
               </div>
             </GlowCard>
           </motion.div>
@@ -307,7 +307,7 @@ export default function AboutSection() {
             <GlowCard gradientIndex={5} className="py-5 px-6">
               <div className="flex items-center gap-6">
                 <span className="font-mono text-[10px] tracking-[0.25em] uppercase shrink-0"
-                  style={{ color: "rgba(255,255,255,0.18)" }}>Stack</span>
+                  style={{ color: "var(--text-faint)" }}>Stack</span>
                 <div className="flex-1 overflow-hidden"><StackTicker /></div>
               </div>
             </GlowCard>
@@ -319,7 +319,7 @@ export default function AboutSection() {
               <Sparkles className="h-5 w-5 mb-4" style={{ color: "rgba(251,191,36,0.35)" }} />
               <blockquote>
                 <p className="font-dm text-lg font-light leading-[1.65] italic"
-                  style={{ color: "rgba(255,255,255,0.55)" }}>
+                  style={{ color: "var(--text-secondary)" }}>
                   &ldquo;Good software is invisible — it just works, and people
                   don&apos;t have to think about it.&rdquo;
                 </p>
@@ -339,9 +339,9 @@ export default function AboutSection() {
               <div className="mb-5"><SectionLabel>Currently</SectionLabel></div>
               <div className="flex flex-col gap-4">
                 {[
-                  { Icon: BookOpen, iconColor: "#60a5fa", bg: "rgba(96,165,250,0.1)",  border: "rgba(96,165,250,0.18)",  labelColor: "#60a5fa", label: "Reading",   text: "Designing ML Systems — Chip Huyen",    textColor: "rgba(147,197,253,0.5)" },
-                  { Icon: Terminal, iconColor: "#c084fc", bg: "rgba(192,132,252,0.1)", border: "rgba(192,132,252,0.18)", labelColor: "#c084fc", label: "Building",  text: "AI-powered mobile assistant app",      textColor: "rgba(196,181,253,0.5)" },
-                  { Icon: Layers,   iconColor: "#34d399", bg: "rgba(52,211,153,0.1)",  border: "rgba(52,211,153,0.18)",  labelColor: "#34d399", label: "Exploring", text: "RAG architectures & vector DBs",        textColor: "rgba(52,211,153,0.45)" },
+                  { Icon: BookOpen, iconColor: "#60a5fa", bg: "rgba(96,165,250,0.08)",  border: "rgba(96,165,250,0.12)",  labelColor: "#60a5fa", label: "Reading",   text: "Designing ML Systems — Chip Huyen",    textColor: "var(--text-muted)" },
+                  { Icon: Terminal, iconColor: "#c084fc", bg: "rgba(192,132,252,0.08)", border: "rgba(192,132,252,0.12)", labelColor: "#c084fc", label: "Building",  text: "AI-powered mobile assistant app",      textColor: "var(--text-muted)" },
+                  { Icon: Layers,   iconColor: "#34d399", bg: "rgba(52,211,153,0.08)",  border: "rgba(52,211,153,0.12)",  labelColor: "#34d399", label: "Exploring", text: "RAG architectures & vector DBs",        textColor: "var(--text-muted)" },
                 ].map(({ Icon, iconColor, bg, border, labelColor, label, text, textColor }) => (
                   <div key={label} className="flex gap-3 items-start">
                     <div className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-lg"
@@ -363,12 +363,12 @@ export default function AboutSection() {
             <GlowCard gradientIndex={8} className="p-6 flex flex-col justify-between h-full">
               <div>
                 <div className="mb-4"><SectionLabel>Fun fact</SectionLabel></div>
-                <p className="font-dm text-m leading-[1.85]" style={{ color: "rgba(255,255,255,0.38)" }}>
+                <p className="font-dm text-m leading-[1.85]" style={{ color: "var(--text-tertiary)" }}>
                   I&apos;ve started more projects than I&apos;ve completed 😒.
                 </p>
               </div>
               <div className="mt-6 flex items-center gap-2">
-                <Dumbbell  className="h-4 w-4" style={{ color: "rgba(251,146,60,0.55)" }} />
+                <Dumbbell className="h-4 w-4" style={{ color: "rgba(251,146,60,0.55)" }} />
                 <span className="font-dm text-[11px]" style={{ color: "rgba(251,146,60,0.4)" }}>
                   Fuelled by coffee &amp; curiosity
                 </span>
